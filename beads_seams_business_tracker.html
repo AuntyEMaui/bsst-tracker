@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beads, Seams &amp; Sticky Things — Business Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://www.google.com/url?q=https://fonts.googleapis.com/css2?family%3DPlayfair%2BDisplay:ital,wght@0,400;0,600;1,400%26family%3DLato:wght@300;400;700%26display%3Dswap&source=gmail&ust=1781024622546000&sa=E" rel="stylesheet">
 <style>
  :root {
  --rose: #d4826a;
@@ -101,6 +101,7 @@
  .card-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 8px; }
  .card-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--rose-deep); font-weight: 600; }
  .card-sub { font-size: 0.72rem; color: var(--ink-soft); margin-top: 4px; }
+
  .card.accent { background: linear-gradient(135deg, var(--rose-deep), var(--rose)); border-color: transparent; }
  .card.accent .card-label, .card.accent .card-sub { color: rgba(255,255,255,0.75); }
  .card.accent .card-value { color: white; }
@@ -150,7 +151,20 @@
  input:focus, select:focus, textarea:focus { border-color: var(--rose); background: white; }
  textarea { resize: vertical; min-height: 70px; }
 
- .btn { background: var(--rose-deep); color: white; border: none; border-radius: 30px; padding: 10px 28px; font-size: 0.85rem; font-weight: 700; cursor: pointer; letter-spacing: 0.05em; transition: all 0.2s; font-family: 'Lato', sans-serif; }
+ .btn {
+ background: var(--rose-deep);
+ color: white;
+ border: none;
+ border-radius: 30px;
+ padding: 10px 28px;
+ font-size: 0.85rem;
+ font-weight: 700;
+ cursor: pointer;
+ letter-spacing: 0.05em;
+ transition: all 0.2s;
+ font-family: 'Lato', sans-serif;
+ }
+
  .btn:hover { background: var(--rose); transform: translateY(-1px); }
  .btn-ghost { background: transparent; color: var(--rose-deep); border: 1.5px solid var(--rose-light); }
  .btn-ghost:hover { background: var(--rose-pale); }
@@ -176,7 +190,15 @@
 
  .mileage-rate { background: var(--rose-pale); border-radius: 12px; padding: 10px 16px; font-size: 0.8rem; color: var(--rose-deep); display: inline-flex; align-items: center; gap: 8px; }
  .mileage-rate strong { font-size: 1rem; }
+
+ .divider { height: 1px; background: var(--rose-pale); margin: 20px 0; }
  .form-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--rose-deep); margin-bottom: 16px; font-style: italic; }
+
+ .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(58,42,38,0.45); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+ .modal-overlay.open { display: flex; }
+ .modal-box { background: var(--white); border-radius: 20px; border: 2px solid var(--rose-pale); padding: 28px 24px 24px; width: 100%; max-width: 480px; box-shadow: 0 8px 40px rgba(58,42,38,0.18); max-height: 90vh; overflow-y: auto; }
+ .modal-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--rose-deep); font-style: italic; margin-bottom: 18px; }
+ .modal-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
  @media (max-width: 600px) {
  header { padding: 16px 20px; }
@@ -191,7 +213,7 @@
 <body>
 
 <header>
- <div class="logo-circle"> </div>
+ <div class="logo-circle">&#x1F9F5;</div>
  <div>
  <h1>Beads, Seams &amp; Sticky Things</h1>
  <p>Business Tracker — Mileage · Expenses · Invoices</p>
@@ -235,9 +257,9 @@
 </div>
 
 <div class="tabs">
- <button class="tab active" onclick="switchTab('mileage', this)"> Mileage</button>
- <button class="tab" onclick="switchTab('expenses', this)"> Expenses</button>
- <button class="tab" onclick="switchTab('invoices', this)"> Invoices</button>
+ <button class="tab active" onclick="switchTab('mileage', this)">&#x1F697; Mileage</button>
+ <button class="tab" onclick="switchTab('expenses', this)">&#x1F6CD;&#xFE0F; Expenses</button>
+ <button class="tab" onclick="switchTab('invoices', this)">&#x1F4CB; Invoices</button>
 </div>
 
 <div id="tab-mileage" class="section active">
@@ -251,7 +273,11 @@
  <div class="form-group"><label>Date</label><input type="date" id="m-date"></div>
  <div class="form-group"><label>Client / Purpose</label><input type="text" id="m-client" placeholder="e.g. Mrs. K — bridal fitting"></div>
  <div class="form-group"><label>Miles Driven</label><input type="number" id="m-miles" placeholder="0" min="0" step="0.1"></div>
- <div class="form-group"><label>Trip Type</label><select id="m-type"><option>Client visit</option><option>Supply run</option><option>Delivery</option><option>Consultation</option><option>Other</option></select></div>
+ <div class="form-group"><label>Trip Type</label>
+ <select id="m-type">
+ <option>Client visit</option><option>Supply run</option><option>Delivery</option><option>Consultation</option><option>Other</option>
+ </select>
+ </div>
  </div>
  <div class="form-group" style="margin-bottom:16px"><label>Notes</label><input type="text" id="m-notes" placeholder="Optional notes..."></div>
  <button class="btn" onclick="addMileage()">+ Add Trip</button>
@@ -259,7 +285,7 @@
  <div class="table-wrap">
  <table>
  <thead><tr><th>Date</th><th>Client / Purpose</th><th>Type</th><th>Miles</th><th>Deduction</th><th>Notes</th><th></th></tr></thead>
- <tbody id="mileage-tbody"><tr><td colspan="7"><div class="empty-state"><div class="empty-icon"> </div><p>No trips logged yet</p></div></td></tr></tbody>
+ <tbody id="mileage-tbody"><tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F697;</div><p>No trips logged yet</p></div></td></tr></tbody>
  </table>
  </div>
 </div>
@@ -270,20 +296,24 @@
  <div class="form-title">Log an Expense</div>
  <div id="receipt-capture-area" style="margin-bottom:18px">
  <input type="file" id="e-photo" accept="image/*" style="display:none" onchange="handleReceiptPhoto(event)">
- <div id="receipt-preview-wrap" style="display:none; margin-bottom:12px; position:relative;">
+ <div id="receipt-preview-wrap" style="display:none; margin-bottom:12px; position:relative">
  <img id="receipt-preview" style="max-width:100%; max-height:180px; border-radius:12px; border:2px solid var(--rose-light); object-fit:cover; display:block">
- <button onclick="clearReceiptPhoto()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.5);color:white;border:none;border-radius:50%;width:28px;height:28px;font-size:14px;cursor:pointer;line-height:1">✕</button>
+ <button onclick="clearReceiptPhoto()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.5);color:white;border:none;border-radius:50%;width:28px;height:28px;font-size:14px;cursor:pointer;line-height:1">&#x2715;</button>
  <div id="receipt-preview-label" style="font-size:0.72rem;color:var(--ink-soft);margin-top:6px;text-align:center"></div>
  </div>
  <button class="btn" style="width:100%;font-size:1rem;padding:14px;background:var(--rose-pale);color:var(--rose-deep);border:2px dashed var(--rose-light);border-radius:14px;letter-spacing:0.02em" onclick="document.getElementById('e-photo').click()">
- &nbsp;Tap to Add Receipt Photo
+ &#x1F4F7; &nbsp;Tap to Snap Receipt
  </button>
  </div>
  <div class="form-grid">
  <div class="form-group"><label>Date</label><input type="date" id="e-date"></div>
  <div class="form-group"><label>Description</label><input type="text" id="e-desc" placeholder="e.g. Thread, beads, notions"></div>
  <div class="form-group"><label>Amount ($)</label><input type="number" id="e-amount" placeholder="0.00" min="0" step="0.01"></div>
- <div class="form-group"><label>Category</label><select id="e-category"><option>Supplies &amp; Materials</option><option>Tools &amp; Equipment</option><option>Packaging</option><option>Marketing</option><option>Travel / Mileage</option><option>Phone / Internet</option><option>Other</option></select></div>
+ <div class="form-group"><label>Category</label>
+ <select id="e-category">
+ <option>Supplies &amp; Materials</option><option>Tools &amp; Equipment</option><option>Packaging</option><option>Marketing</option><option>Travel / Mileage</option><option>Phone / Internet</option><option>Other</option>
+ </select>
+ </div>
  </div>
  <div class="form-group" style="margin-bottom:16px"><label>Receipt / Notes</label><input type="text" id="e-notes" placeholder="Store, receipt #, notes..."></div>
  <button class="btn" onclick="addExpense()">+ Add Expense</button>
@@ -291,7 +321,7 @@
  <div class="table-wrap">
  <table>
  <thead><tr><th>Receipt</th><th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
- <tbody id="expenses-tbody"><tr><td colspan="7"><div class="empty-state"><div class="empty-icon"> </div><p>No expenses logged yet</p></div></td></tr></tbody>
+ <tbody id="expenses-tbody"><tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F6CD;&#xFE0F;</div><p>No expenses logged yet</p></div></td></tr></tbody>
  </table>
  </div>
 </div>
@@ -307,7 +337,9 @@
  <div class="form-group"><label>Service</label><input type="text" id="i-service" placeholder="e.g. Bridal hem, jewelry"></div>
  <div class="form-group"><label>Amount ($)</label><input type="number" id="i-amount" placeholder="0.00" min="0" step="0.01"></div>
  <div class="form-group"><label>Miles to Client</label><input type="number" id="i-miles" placeholder="0" min="0" step="0.1"></div>
- <div class="form-group"><label>Status</label><select id="i-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select></div>
+ <div class="form-group"><label>Status</label>
+ <select id="i-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select>
+ </div>
  </div>
  <div class="form-group" style="margin-bottom:16px"><label>Notes</label><input type="text" id="i-notes" placeholder="Alterations details, deposit info..."></div>
  <button class="btn" onclick="addInvoice()">+ Add Invoice</button>
@@ -315,18 +347,30 @@
  <div class="table-wrap">
  <table>
  <thead><tr><th>Date</th><th>Invoice #</th><th>Client</th><th>Service</th><th>Miles</th><th>Amount</th><th>Status</th><th>Notes</th><th></th></tr></thead>
- <tbody id="invoices-tbody"><tr><td colspan="9"><div class="empty-state"><div class="empty-icon"> </div><p>No invoices yet</p></div></td></tr></tbody>
+ <tbody id="invoices-tbody"><tr><td colspan="9"><div class="empty-state"><div class="empty-icon">&#x1F4CB;</div><p>No invoices yet</p></div></td></tr></tbody>
  </table>
+ </div>
+</div>
+
+<div id="edit-modal" class="modal-overlay" onclick="closeEditModal(event)">
+ <div class="modal-box" onclick="event.stopPropagation()">
+ <div class="modal-title" id="edit-modal-title">Edit Entry</div>
+ <div id="edit-modal-body"></div>
+ <div class="modal-actions">
+ <button class="btn" onclick="saveEdit()">&#x1F4BE; Save Changes</button>
+ <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+ </div>
  </div>
 </div>
 
 <script>
  const IRS_RATE = 0.70;
  let data = JSON.parse(localStorage.getItem('bsst_data') || '{"mileage":[],"expenses":[],"invoices":[]}');
+ let editState = { type: null, id: null };
 
  function save() { localStorage.setItem('bsst_data', JSON.stringify(data)); updateSummary(); }
  function fmt$(n) { return '$' + parseFloat(n||0).toFixed(2); }
- function fmtDate(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${m}/${day}/${y}`; }
+ function fmtDate(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return m+'/'+day+'/'+y; }
  function today() { return new Date().toISOString().split('T')[0]; }
 
  document.querySelectorAll('input[type="date"]').forEach(el => el.value = today());
@@ -342,33 +386,24 @@
  const miles = parseFloat(document.getElementById('m-miles').value);
  if (!miles || miles <= 0) { alert('Please enter miles driven.'); return; }
  data.mileage.push({ id: Date.now(), date: document.getElementById('m-date').value || today(), client: document.getElementById('m-client').value || '—', type: document.getElementById('m-type').value, miles, notes: document.getElementById('m-notes').value });
- document.getElementById('m-miles').value = '';
- document.getElementById('m-client').value = '';
- document.getElementById('m-notes').value = '';
+ document.getElementById('m-miles').value = ''; document.getElementById('m-client').value = ''; document.getElementById('m-notes').value = '';
  save(); renderMileage();
  }
 
- function deleteMileage(id) { data.mileage = data.mileage.filter(r => r.id !== id); save(); renderMileage(); }
+ function deleteMileage(id) { data.mileage = data.mileage.filter(r => https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E !== id); save(); renderMileage(); }
 
  function renderMileage() {
  const tbody = document.getElementById('mileage-tbody');
- if (!data.mileage.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon"> </div><p>No trips logged yet</p></div></td></tr>'; return; }
- tbody.innerHTML = [...data.mileage].reverse().map(r => `<tr><td>${fmtDate(r.date)}</td><td>${r.client}</td><td>${r.type}</td><td><strong>${r.miles} mi</strong></td><td style="color:var(--rose-deep);font-weight:700">${fmt$(r.miles * IRS_RATE)}</td><td style="color:var(--ink-soft)">${r.notes || '—'}</td><td><button class="btn btn-danger btn-sm" onclick="deleteMileage(${r.id})">✕</button></td></tr>`).join('');
+ if (!data.mileage.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F697;</div><p>No trips logged yet</p></div></td></tr>'; return; }
+ tbody.innerHTML = [...data.mileage].reverse().map(r => '<tr><td>'+fmtDate(r.date)+'</td><td>'+r.client+'</td><td>'+r.type+'</td><td><strong>'+r.miles+' mi</strong></td><td style="color:var(--rose-deep);font-weight:700">'+fmt$(r.miles * IRS_RATE)+'</td><td style="color:var(--ink-soft)">'+(r.notes||'—')+'</td><td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="editMileage('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')" style="margin-right:4px">&#x270F;&#xFE0F;</button><button class="btn btn-danger btn-sm" onclick="deleteMileage('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')">&#x2715;</button></td></tr>').join('');
  }
 
  let currentReceiptDataUrl = null;
 
  function handleReceiptPhoto(event) {
- const file = event.target.files[0];
- if (!file) return;
+ const file = event.target.files[0]; if (!file) return;
  const reader = new FileReader();
- reader.onload = e => {
- currentReceiptDataUrl = e.target.result;
- const wrap = document.getElementById('receipt-preview-wrap');
- wrap.style.display = 'block';
- document.getElementById('receipt-preview').src = currentReceiptDataUrl;
- document.getElementById('receipt-preview-label').textContent = ' Receipt added — ' + file.name;
- };
+ reader.onload = e => { currentReceiptDataUrl = e.target.result; const wrap = document.getElementById('receipt-preview-wrap'); wrap.style.display = 'block'; document.getElementById('receipt-preview').src = currentReceiptDataUrl; document.getElementById('receipt-preview-label').textContent = 'Receipt captured — ' + https://www.google.com/url?q=http://file.name&source=gmail&ust=1781024622547000&sa=E; };
  reader.readAsDataURL(file);
  }
 
@@ -378,34 +413,21 @@
  const amount = parseFloat(document.getElementById('e-amount').value);
  if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
  data.expenses.push({ id: Date.now(), date: document.getElementById('e-date').value || today(), desc: document.getElementById('e-desc').value || 'Expense', category: document.getElementById('e-category').value, amount, notes: document.getElementById('e-notes').value, photo: currentReceiptDataUrl || null });
- document.getElementById('e-amount').value = '';
- document.getElementById('e-desc').value = '';
- document.getElementById('e-notes').value = '';
- clearReceiptPhoto();
- save(); renderExpenses();
+ document.getElementById('e-amount').value = ''; document.getElementById('e-desc').value = ''; document.getElementById('e-notes').value = '';
+ clearReceiptPhoto(); save(); renderExpenses();
  }
 
- function deleteExpense(id) { data.expenses = data.expenses.filter(r => r.id !== id); save(); renderExpenses(); }
+ function deleteExpense(id) { data.expenses = data.expenses.filter(r => https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E !== id); save(); renderExpenses(); }
 
- function viewReceipt(id) {
- const exp = data.expenses.find(e => e.id === id);
- if (!exp || !exp.photo) return;
- const w = window.open();
- w.document.write(`<img src="${exp.photo}" style="max-width:100%;height:auto">`);
- }
+ function viewReceipt(id) { const exp = data.expenses.find(e => https://www.google.com/url?q=http://e.id&source=gmail&ust=1781024622547000&sa=E === id); if (!exp || !exp.photo) return; const w = window.open(); w.document.write('<img src="'+exp.photo+'" style="max-width:100%;height:auto">'); }
 
  function renderExpenses() {
  const tbody = document.getElementById('expenses-tbody');
- if (!data.expenses.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon"> </div><p>No expenses logged yet</p></div></td></tr>'; return; }
- tbody.innerHTML = [...data.expenses].reverse().map(r => `<tr><td style="text-align:center">${r.photo ? `<img src="${r.photo}" onclick="viewReceipt(${r.id})" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1.5px solid var(--rose-light);cursor:pointer" title="Tap to view receipt">` : `<span style="color:var(--rose-light);font-size:1.2rem">—</span>`}</td><td>${fmtDate(r.date)}</td><td><strong>${r.desc}</strong></td><td>${r.category}</td><td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td><td style="color:var(--ink-soft)">${r.notes || '—'}</td><td><button class="btn btn-danger btn-sm" onclick="deleteExpense(${r.id})">✕</button></td></tr>`).join('');
+ if (!data.expenses.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F6CD;&#xFE0F;</div><p>No expenses logged yet</p></div></td></tr>'; return; }
+ tbody.innerHTML = [...data.expenses].reverse().map(r => '<tr><td style="text-align:center">'+(r.photo ? '<img src="'+r.photo+'" onclick="viewReceipt('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1.5px solid var(--rose-light);cursor:pointer">' : '<span style="color:var(--rose-light);font-size:1.2rem">—</span>')+'</td><td>'+fmtDate(r.date)+'</td><td><strong>'+r.desc+'</strong></td><td>'+r.category+'</td><td style="color:var(--rose-deep);font-weight:700">'+fmt$(r.amount)+'</td><td style="color:var(--ink-soft)">'+(r.notes||'—')+'</td><td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="editExpense('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')" style="margin-right:4px">&#x270F;&#xFE0F;</button><button class="btn btn-danger btn-sm" onclick="deleteExpense('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')">&#x2715;</button></td></tr>').join('');
  }
 
- function nextInvoiceNum() {
- const nums = data.invoices.map(i => parseInt((i.num||'').replace(/\D/g,''))).filter(Boolean);
- const max = nums.length ? Math.max(...nums) : 0;
- return 'INV-' + String(max + 1).padStart(3, '0');
- }
-
+ function nextInvoiceNum() { const nums = data.invoices.map(i => parseInt((i.num||'').replace(/\D/g,''))).filter(Boolean); const max = nums.length ? Math.max(...nums) : 0; return 'INV-' + String(max + 1).padStart(3, '0'); }
  document.getElementById('i-num').value = nextInvoiceNum();
 
  function addInvoice() {
@@ -413,34 +435,19 @@
  if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
  const miles = parseFloat(document.getElementById('i-miles').value) || 0;
  data.invoices.push({ id: Date.now(), date: document.getElementById('i-date').value || today(), num: document.getElementById('i-num').value || nextInvoiceNum(), client: document.getElementById('i-client').value || '—', service: document.getElementById('i-service').value || '—', amount, miles, status: document.getElementById('i-status').value, notes: document.getElementById('i-notes').value });
- if (miles > 0) {
- const client = document.getElementById('i-client').value || 'Client visit';
- data.mileage.push({ id: Date.now() + 1, date: document.getElementById('i-date').value || today(), client: client + ' (from invoice)', type: 'Client visit', miles, notes: 'Auto-logged from invoice' });
- }
- document.getElementById('i-amount').value = '';
- document.getElementById('i-client').value = '';
- document.getElementById('i-service').value = '';
- document.getElementById('i-notes').value = '';
- document.getElementById('i-miles').value = '';
- save(); renderInvoices(); renderMileage();
- document.getElementById('i-num').value = nextInvoiceNum();
+ if (miles > 0) { const client = document.getElementById('i-client').value || 'Client visit'; data.mileage.push({ id: Date.now() + 1, date: document.getElementById('i-date').value || today(), client: client + ' (from invoice)', type: 'Client visit', miles, notes: 'Auto-logged from invoice' }); }
+ document.getElementById('i-amount').value = ''; document.getElementById('i-client').value = ''; document.getElementById('i-service').value = ''; document.getElementById('i-notes').value = ''; document.getElementById('i-miles').value = '';
+ save(); renderInvoices(); renderMileage(); document.getElementById('i-num').value = nextInvoiceNum();
  }
 
- function toggleStatus(id) {
- const inv = data.invoices.find(i => i.id === id);
- if (!inv) return;
- const cycle = ['Pending','Paid','Unpaid'];
- inv.status = cycle[(cycle.indexOf(inv.status) + 1) % cycle.length];
- save(); renderInvoices();
- }
-
- function deleteInvoice(id) { data.invoices = data.invoices.filter(r => r.id !== id); save(); renderInvoices(); }
+ function toggleStatus(id) { const inv = data.invoices.find(i => https://www.google.com/url?q=http://i.id&source=gmail&ust=1781024622547000&sa=E === id); if (!inv) return; const cycle = ['Pending','Paid','Unpaid']; inv.status = cycle[(cycle.indexOf(inv.status) + 1) % cycle.length]; save(); renderInvoices(); }
+ function deleteInvoice(id) { data.invoices = data.invoices.filter(r => https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E !== id); save(); renderInvoices(); }
 
  function renderInvoices() {
  const tbody = document.getElementById('invoices-tbody');
- if (!data.invoices.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon"> </div><p>No invoices yet</p></div></td></tr>'; return; }
+ if (!data.invoices.length) { tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">&#x1F4CB;</div><p>No invoices yet</p></div></td></tr>'; return; }
  const badgeClass = s => s === 'Paid' ? 'badge-paid' : s === 'Pending' ? 'badge-pending' : 'badge-unpaid';
- tbody.innerHTML = [...data.invoices].reverse().map(r => `<tr><td>${fmtDate(r.date)}</td><td><strong>${r.num}</strong></td><td>${r.client}</td><td>${r.service}</td><td>${r.miles ? r.miles + ' mi' : '—'}</td><td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td><td><span class="badge ${badgeClass(r.status)}" style="cursor:pointer" onclick="toggleStatus(${r.id})" title="Click to cycle status">${r.status}</span></td><td style="color:var(--ink-soft)">${r.notes || '—'}</td><td><button class="btn btn-danger btn-sm" onclick="deleteInvoice(${r.id})">✕</button></td></tr>`).join('');
+ tbody.innerHTML = [...data.invoices].reverse().map(r => '<tr><td>'+fmtDate(r.date)+'</td><td><strong>'+r.num+'</strong></td><td>'+r.client+'</td><td>'+r.service+'</td><td>'+(r.miles ? r.miles+' mi' : '—')+'</td><td style="color:var(--rose-deep);font-weight:700">'+fmt$(r.amount)+'</td><td><span class="badge '+badgeClass(r.status)+'" style="cursor:pointer" onclick="toggleStatus('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')" title="Click to cycle status">'+r.status+'</span></td><td style="color:var(--ink-soft)">'+(r.notes||'—')+'</td><td style="white-space:nowrap"><button class="btn btn-ghost btn-sm" onclick="editInvoice('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')" style="margin-right:4px">&#x270F;&#xFE0F;</button><button class="btn btn-danger btn-sm" onclick="deleteInvoice('+https://www.google.com/url?q=http://r.id&source=gmail&ust=1781024622547000&sa=E+')">&#x2715;</button></td></tr>').join('');
  }
 
  function updateSummary() {
@@ -456,6 +463,53 @@
  document.getElementById('totalWriteoffs').textContent = fmt$(totalExpenses + mileageDeduction);
  document.getElementById('pendingInvoices').textContent = pending;
  document.getElementById('yearBadge').textContent = new Date().getFullYear();
+ }
+
+ function openEditModal(title, bodyHTML, type, id) {
+ editState = { type, id };
+ document.getElementById('edit-modal-title').textContent = title;
+ document.getElementById('edit-modal-body').innerHTML = bodyHTML;
+ document.getElementById('edit-modal').classList.add('open');
+ }
+
+ function closeEditModal(e) {
+ if (e && e.target !== document.getElementById('edit-modal')) return;
+ document.getElementById('edit-modal').classList.remove('open');
+ editState = { type: null, id: null };
+ }
+
+ function editMileage(id) {
+ const r = data.mileage.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ openEditModal('Edit Trip', '<div class="form-grid"><div class="form-group"><label>Date</label><input type="date" id="ed-date" value="'+r.date+'"></div><div class="form-group"><label>Client / Purpose</label><input type="text" id="ed-client" value="'+(r.client==='—'?'':r.client)+'"></div><div class="form-group"><label>Miles</label><input type="number" id="ed-miles" value="'+r.miles+'" min="0" step="0.1"></div><div class="form-group"><label>Trip Type</label><select id="ed-type">'+['Client visit','Supply run','Delivery','Consultation','Other'].map(o=>'<option'+(o===r.type?' selected':'')+'>'+o+'</option>').join('')+'</select></div></div><div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="'+(r.notes||'')+'"></div>', 'mileage', id);
+ }
+
+ function editExpense(id) {
+ const r = data.expenses.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ openEditModal('Edit Expense', '<div class="form-grid"><div class="form-group"><label>Date</label><input type="date" id="ed-date" value="'+r.date+'"></div><div class="form-group"><label>Description</label><input type="text" id="ed-desc" value="'+r.desc+'"></div><div class="form-group"><label>Amount ($)</label><input type="number" id="ed-amount" value="'+r.amount+'" min="0" step="0.01"></div><div class="form-group"><label>Category</label><select id="ed-category">'+['Supplies & Materials','Tools & Equipment','Packaging','Marketing','Travel / Mileage','Phone / Internet','Other'].map(o=>'<option'+(o===r.category?' selected':'')+'>'+o+'</option>').join('')+'</select></div></div><div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="'+(r.notes||'')+'"></div>', 'expense', id);
+ }
+
+ function editInvoice(id) {
+ const r = data.invoices.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ openEditModal('Edit Invoice', '<div class="form-grid"><div class="form-group"><label>Date</label><input type="date" id="ed-date" value="'+r.date+'"></div><div class="form-group"><label>Invoice #</label><input type="text" id="ed-num" value="'+r.num+'"></div><div class="form-group"><label>Client</label><input type="text" id="ed-client" value="'+(r.client==='—'?'':r.client)+'"></div><div class="form-group"><label>Service</label><input type="text" id="ed-service" value="'+(r.service==='—'?'':r.service)+'"></div><div class="form-group"><label>Amount ($)</label><input type="number" id="ed-amount" value="'+r.amount+'" min="0" step="0.01"></div><div class="form-group"><label>Miles</label><input type="number" id="ed-miles" value="'+(r.miles||0)+'" min="0" step="0.1"></div><div class="form-group"><label>Status</label><select id="ed-status">'+['Pending','Paid','Unpaid'].map(o=>'<option'+(o===r.status?' selected':'')+'>'+o+'</option>').join('')+'</select></div></div><div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="'+(r.notes||'')+'"></div>', 'invoice', id);
+ }
+
+ function saveEdit() {
+ const { type, id } = editState; if (!type || !id) return;
+ if (type === 'mileage') {
+ const r = data.mileage.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ r.date = document.getElementById('ed-date').value; r.client = document.getElementById('ed-client').value || '—'; r.miles = parseFloat(document.getElementById('ed-miles').value) || r.miles; r.type = document.getElementById('ed-type').value; r.notes = document.getElementById('ed-notes').value;
+ save(); renderMileage();
+ } else if (type === 'expense') {
+ const r = data.expenses.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ r.date = document.getElementById('ed-date').value; r.desc = document.getElementById('ed-desc').value || r.desc; r.amount = parseFloat(document.getElementById('ed-amount').value) || r.amount; r.category = document.getElementById('ed-category').value; r.notes = document.getElementById('ed-notes').value;
+ save(); renderExpenses();
+ } else if (type === 'invoice') {
+ const r = data.invoices.find(x => https://www.google.com/url?q=http://x.id&source=gmail&ust=1781024622548000&sa=E === id); if (!r) return;
+ r.date = document.getElementById('ed-date').value; r.num = document.getElementById('ed-num').value || r.num; r.client = document.getElementById('ed-client').value || '—'; r.service = document.getElementById('ed-service').value || '—'; r.amount = parseFloat(document.getElementById('ed-amount').value) || r.amount; r.miles = parseFloat(document.getElementById('ed-miles').value) || 0; r.status = document.getElementById('ed-status').value; r.notes = document.getElementById('ed-notes').value;
+ save(); renderInvoices();
+ }
+ document.getElementById('edit-modal').classList.remove('open');
+ editState = { type: null, id: null };
  }
 
  renderMileage(); renderExpenses(); renderInvoices(); updateSummary();
