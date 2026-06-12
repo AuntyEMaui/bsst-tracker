@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -367,21 +367,20 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(58,42,38,0.45);
-    z-index: 200;
+    background: rgba(58,42,38,0.55);
+    z-index: 500;
     align-items: center;
     justify-content: center;
     padding: 20px;
   }
   .modal-overlay.open { display: flex; }
-  .modal-box {
+  .modal {
     background: var(--white);
     border-radius: 20px;
-    border: 2px solid var(--rose-pale);
-    padding: 28px 24px 24px;
+    padding: 28px;
     width: 100%;
-    max-width: 480px;
-    box-shadow: 0 8px 40px rgba(58,42,38,0.18);
+    max-width: 560px;
+    box-shadow: 0 12px 48px rgba(58,42,38,0.25);
     max-height: 90vh;
     overflow-y: auto;
   }
@@ -390,14 +389,22 @@
     font-size: 1.1rem;
     color: var(--rose-deep);
     font-style: italic;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
   .modal-actions {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 20px;
     flex-wrap: wrap;
   }
+  .btn-edit {
+    background: transparent;
+    color: var(--rose-deep);
+    border: 1.5px solid var(--rose-light);
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+  .btn-edit:hover { background: var(--rose-pale); transform: none; }
 
   @media (max-width: 600px) {
     header { padding: 16px 20px; }
@@ -566,8 +573,6 @@
           <option>Packaging</option>
           <option>Marketing</option>
           <option>Travel / Mileage</option>
-          <option>Meals</option>
-          <option>Labor / Contractor</option>
           <option>Phone / Internet</option>
           <option>Other</option>
         </select>
@@ -671,14 +676,73 @@
   </div>
 </div>
 
-<!-- ═══ EDIT MODAL ═══ -->
-<div id="edit-modal" class="modal-overlay" onclick="closeEditModal(event)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-title" id="edit-modal-title">Edit Entry</div>
-    <div id="edit-modal-body"></div>
+<!-- EDIT MODALS -->
+<!-- Mileage Edit -->
+<div class="modal-overlay" id="modal-mileage">
+  <div class="modal">
+    <div class="modal-title">✏️ Edit Trip</div>
+    <input type="hidden" id="em-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Date</label><input type="date" id="em-date"></div>
+      <div class="form-group"><label>Client / Purpose</label><input type="text" id="em-client"></div>
+      <div class="form-group"><label>Miles Driven</label><input type="number" id="em-miles" step="0.1"></div>
+      <div class="form-group"><label>Trip Type</label>
+        <select id="em-type">
+          <option>Client visit</option><option>Supply run</option><option>Delivery</option><option>Consultation</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="em-notes"></div>
     <div class="modal-actions">
-      <button class="btn" onclick="saveEdit()">💾 Save Changes</button>
-      <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+      <button class="btn" onclick="saveMileageEdit()">Save Changes</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-mileage')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Expense Edit -->
+<div class="modal-overlay" id="modal-expense">
+  <div class="modal">
+    <div class="modal-title">✏️ Edit Expense</div>
+    <input type="hidden" id="ee-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Date</label><input type="date" id="ee-date"></div>
+      <div class="form-group"><label>Description</label><input type="text" id="ee-desc"></div>
+      <div class="form-group"><label>Amount ($)</label><input type="number" id="ee-amount" step="0.01"></div>
+      <div class="form-group"><label>Category</label>
+        <select id="ee-category">
+          <option>Supplies & Materials</option><option>Tools & Equipment</option><option>Packaging</option><option>Marketing</option><option>Travel / Mileage</option><option>Phone / Internet</option><option>Meals</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="ee-notes"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="saveExpenseEdit()">Save Changes</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-expense')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invoice Edit -->
+<div class="modal-overlay" id="modal-invoice">
+  <div class="modal">
+    <div class="modal-title">✏️ Edit Invoice</div>
+    <input type="hidden" id="ei-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Date</label><input type="date" id="ei-date"></div>
+      <div class="form-group"><label>Invoice #</label><input type="text" id="ei-num"></div>
+      <div class="form-group"><label>Client Name</label><input type="text" id="ei-client"></div>
+      <div class="form-group"><label>Service</label><input type="text" id="ei-service"></div>
+      <div class="form-group"><label>Amount ($)</label><input type="number" id="ei-amount" step="0.01"></div>
+      <div class="form-group"><label>Miles to Client</label><input type="number" id="ei-miles" step="0.1"></div>
+      <div class="form-group"><label>Status</label>
+        <select id="ei-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="ei-notes"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="saveInvoiceEdit()">Save Changes</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-invoice')">Cancel</button>
     </div>
   </div>
 </div>
@@ -686,25 +750,12 @@
 <script>
   const IRS_RATE = 0.70;
   let data = JSON.parse(localStorage.getItem('bsst_data') || '{"mileage":[],"expenses":[],"invoices":[]}');
-  let editState = { type: null, id: null };
 
-  function save() {
-    localStorage.setItem('bsst_data', JSON.stringify(data));
-    updateSummary();
-  }
-
+  function save() { localStorage.setItem('bsst_data', JSON.stringify(data)); updateSummary(); }
   function fmt$(n) { return '$' + parseFloat(n||0).toFixed(2); }
-  function fmtDate(d) {
-    if (!d) return '';
-    const [y,m,day] = d.split('-');
-    return `${m}/${day}/${y}`;
-  }
+  function fmtDate(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${m}/${day}/${y}`; }
+  function today() { return new Date().toISOString().split('T')[0]; }
 
-  function today() {
-    return new Date().toISOString().split('T')[0];
-  }
-
-  // Set default dates
   document.querySelectorAll('input[type="date"]').forEach(el => el.value = today());
 
   function switchTab(name, el) {
@@ -713,6 +764,14 @@
     el.classList.add('active');
     document.getElementById('tab-' + name).classList.add('active');
   }
+
+  // ── MODAL HELPERS ──
+  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+  // Close on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+  });
 
   // ── MILEAGE ──
   function addMileage() {
@@ -729,19 +788,44 @@
     document.getElementById('m-miles').value = '';
     document.getElementById('m-client').value = '';
     document.getElementById('m-notes').value = '';
-    save();
-    renderMileage();
+    save(); renderMileage();
   }
 
   function deleteMileage(id) {
+    if (!confirm('Delete this trip?')) return;
     data.mileage = data.mileage.filter(r => r.id !== id);
+    save(); renderMileage();
+  }
+
+  function editMileage(id) {
+    const r = data.mileage.find(r => r.id === id);
+    if (!r) return;
+    document.getElementById('em-id').value = id;
+    document.getElementById('em-date').value = r.date;
+    document.getElementById('em-client').value = r.client;
+    document.getElementById('em-miles').value = r.miles;
+    document.getElementById('em-type').value = r.type;
+    document.getElementById('em-notes').value = r.notes || '';
+    openModal('modal-mileage');
+  }
+
+  function saveMileageEdit() {
+    const id = parseInt(document.getElementById('em-id').value);
+    const r = data.mileage.find(r => r.id === id);
+    if (!r) return;
+    r.date = document.getElementById('em-date').value;
+    r.client = document.getElementById('em-client').value || '—';
+    r.miles = parseFloat(document.getElementById('em-miles').value) || r.miles;
+    r.type = document.getElementById('em-type').value;
+    r.notes = document.getElementById('em-notes').value;
+    closeModal('modal-mileage');
     save(); renderMileage();
   }
 
   function renderMileage() {
     const tbody = document.getElementById('mileage-tbody');
     if (!data.mileage.length) {
-      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>';
       return;
     }
     tbody.innerHTML = [...data.mileage].reverse().map(r => `
@@ -752,10 +836,8 @@
         <td><strong>${r.miles} mi</strong></td>
         <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.miles * IRS_RATE)}</td>
         <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td style="white-space:nowrap">
-          <button class="btn btn-ghost btn-sm" onclick="editMileage(${r.id})" style="margin-right:4px">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteMileage(${r.id})">✕</button>
-        </td>
+        <td><button class="btn btn-edit btn-sm" onclick="editMileage(${r.id})">✏️</button></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteMileage(${r.id})">✕</button></td>
       </tr>`).join('');
   }
 
@@ -798,12 +880,37 @@
     document.getElementById('e-desc').value = '';
     document.getElementById('e-notes').value = '';
     clearReceiptPhoto();
-    save();
-    renderExpenses();
+    save(); renderExpenses();
   }
 
   function deleteExpense(id) {
+    if (!confirm('Delete this expense?')) return;
     data.expenses = data.expenses.filter(r => r.id !== id);
+    save(); renderExpenses();
+  }
+
+  function editExpense(id) {
+    const r = data.expenses.find(r => r.id === id);
+    if (!r) return;
+    document.getElementById('ee-id').value = id;
+    document.getElementById('ee-date').value = r.date;
+    document.getElementById('ee-desc').value = r.desc;
+    document.getElementById('ee-amount').value = r.amount;
+    document.getElementById('ee-category').value = r.category;
+    document.getElementById('ee-notes').value = r.notes || '';
+    openModal('modal-expense');
+  }
+
+  function saveExpenseEdit() {
+    const id = parseInt(document.getElementById('ee-id').value);
+    const r = data.expenses.find(r => r.id === id);
+    if (!r) return;
+    r.date = document.getElementById('ee-date').value;
+    r.desc = document.getElementById('ee-desc').value || 'Expense';
+    r.amount = parseFloat(document.getElementById('ee-amount').value) || r.amount;
+    r.category = document.getElementById('ee-category').value;
+    r.notes = document.getElementById('ee-notes').value;
+    closeModal('modal-expense');
     save(); renderExpenses();
   }
 
@@ -817,7 +924,7 @@
   function renderExpenses() {
     const tbody = document.getElementById('expenses-tbody');
     if (!data.expenses.length) {
-      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>';
       return;
     }
     tbody.innerHTML = [...data.expenses].reverse().map(r => `
@@ -832,15 +939,12 @@
         <td>${r.category}</td>
         <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td>
         <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td style="white-space:nowrap">
-          <button class="btn btn-ghost btn-sm" onclick="editExpense(${r.id})" style="margin-right:4px">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteExpense(${r.id})">✕</button>
-        </td>
+        <td><button class="btn btn-edit btn-sm" onclick="editExpense(${r.id})">✏️</button></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense(${r.id})">✕</button></td>
       </tr>`).join('');
   }
 
   // ── INVOICES ──
-  let invoiceCounter = 1;
   function nextInvoiceNum() {
     const nums = data.invoices.map(i => parseInt((i.num||'').replace(/\D/g,''))).filter(Boolean);
     const max = nums.length ? Math.max(...nums) : 0;
@@ -859,32 +963,58 @@
       num: document.getElementById('i-num').value || nextInvoiceNum(),
       client: document.getElementById('i-client').value || '—',
       service: document.getElementById('i-service').value || '—',
-      amount,
-      miles,
+      amount, miles,
       status: document.getElementById('i-status').value,
       notes: document.getElementById('i-notes').value
     });
-    // If miles entered on invoice, also add to mileage log
     if (miles > 0) {
       const client = document.getElementById('i-client').value || 'Client visit';
-      data.mileage.push({
-        id: Date.now() + 1,
-        date: document.getElementById('i-date').value || today(),
-        client: client + ' (from invoice)',
-        type: 'Client visit',
-        miles,
-        notes: 'Auto-logged from invoice'
-      });
+      data.mileage.push({ id: Date.now() + 1, date: document.getElementById('i-date').value || today(), client: client + ' (from invoice)', type: 'Client visit', miles, notes: 'Auto-logged from invoice' });
     }
     document.getElementById('i-amount').value = '';
     document.getElementById('i-client').value = '';
     document.getElementById('i-service').value = '';
     document.getElementById('i-notes').value = '';
     document.getElementById('i-miles').value = '';
-    save();
-    renderInvoices();
-    renderMileage();
+    save(); renderInvoices(); renderMileage();
     document.getElementById('i-num').value = nextInvoiceNum();
+  }
+
+  function deleteInvoice(id) {
+    if (!confirm('Delete this invoice?')) return;
+    data.invoices = data.invoices.filter(r => r.id !== id);
+    save(); renderInvoices();
+  }
+
+  function editInvoice(id) {
+    const r = data.invoices.find(r => r.id === id);
+    if (!r) return;
+    document.getElementById('ei-id').value = id;
+    document.getElementById('ei-date').value = r.date;
+    document.getElementById('ei-num').value = r.num;
+    document.getElementById('ei-client').value = r.client;
+    document.getElementById('ei-service').value = r.service;
+    document.getElementById('ei-amount').value = r.amount;
+    document.getElementById('ei-miles').value = r.miles || '';
+    document.getElementById('ei-status').value = r.status;
+    document.getElementById('ei-notes').value = r.notes || '';
+    openModal('modal-invoice');
+  }
+
+  function saveInvoiceEdit() {
+    const id = parseInt(document.getElementById('ei-id').value);
+    const r = data.invoices.find(r => r.id === id);
+    if (!r) return;
+    r.date = document.getElementById('ei-date').value;
+    r.num = document.getElementById('ei-num').value;
+    r.client = document.getElementById('ei-client').value || '—';
+    r.service = document.getElementById('ei-service').value || '—';
+    r.amount = parseFloat(document.getElementById('ei-amount').value) || r.amount;
+    r.miles = parseFloat(document.getElementById('ei-miles').value) || 0;
+    r.status = document.getElementById('ei-status').value;
+    r.notes = document.getElementById('ei-notes').value;
+    closeModal('modal-invoice');
+    save(); renderInvoices();
   }
 
   function toggleStatus(id) {
@@ -895,15 +1025,10 @@
     save(); renderInvoices();
   }
 
-  function deleteInvoice(id) {
-    data.invoices = data.invoices.filter(r => r.id !== id);
-    save(); renderInvoices();
-  }
-
   function renderInvoices() {
     const tbody = document.getElementById('invoices-tbody');
     if (!data.invoices.length) {
-      tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>';
       return;
     }
     const badgeClass = s => s === 'Paid' ? 'badge-paid' : s === 'Pending' ? 'badge-pending' : 'badge-unpaid';
@@ -917,10 +1042,8 @@
         <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td>
         <td><span class="badge ${badgeClass(r.status)}" style="cursor:pointer" onclick="toggleStatus(${r.id})" title="Click to cycle status">${r.status}</span></td>
         <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td style="white-space:nowrap">
-          <button class="btn btn-ghost btn-sm" onclick="editInvoice(${r.id})" style="margin-right:4px">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteInvoice(${r.id})">✕</button>
-        </td>
+        <td><button class="btn btn-edit btn-sm" onclick="editInvoice(${r.id})">✏️</button></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteInvoice(${r.id})">✕</button></td>
       </tr>`).join('');
   }
 
@@ -931,7 +1054,6 @@
     const totalIncome = data.invoices.filter(i => i.status === 'Paid').reduce((s, r) => s + r.amount, 0);
     const pending = data.invoices.filter(i => i.status === 'Pending').length;
     const mileageDeduction = totalMiles * IRS_RATE;
-
     document.getElementById('totalMiles').textContent = totalMiles.toFixed(1);
     document.getElementById('totalExpenses').textContent = fmt$(totalExpenses);
     document.getElementById('totalIncome').textContent = fmt$(totalIncome);
@@ -941,125 +1063,7 @@
     document.getElementById('yearBadge').textContent = new Date().getFullYear();
   }
 
-  // ── EDIT MODAL ──
-  function openEditModal(title, bodyHTML, type, id) {
-    editState = { type, id };
-    document.getElementById('edit-modal-title').textContent = title;
-    document.getElementById('edit-modal-body').innerHTML = bodyHTML;
-    document.getElementById('edit-modal').classList.add('open');
-  }
-
-  function closeEditModal(e) {
-    if (e && e.target !== document.getElementById('edit-modal')) return;
-    document.getElementById('edit-modal').classList.remove('open');
-    editState = { type: null, id: null };
-  }
-
-  function editMileage(id) {
-    const r = data.mileage.find(x => x.id === id);
-    if (!r) return;
-    openEditModal('✏️ Edit Trip', `
-      <div class="form-grid">
-        <div class="form-group"><label>Date</label><input type="date" id="ed-date" value="${r.date}"></div>
-        <div class="form-group"><label>Client / Purpose</label><input type="text" id="ed-client" value="${r.client === '—' ? '' : r.client}"></div>
-        <div class="form-group"><label>Miles</label><input type="number" id="ed-miles" value="${r.miles}" min="0" step="0.1"></div>
-        <div class="form-group"><label>Trip Type</label>
-          <select id="ed-type">
-            ${['Client visit','Supply run','Delivery','Consultation','Other'].map(o => `<option${o===r.type?' selected':''}>${o}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="${r.notes||''}"></div>
-    `, 'mileage', id);
-  }
-
-  function editExpense(id) {
-    const r = data.expenses.find(x => x.id === id);
-    if (!r) return;
-    openEditModal('✏️ Edit Expense', `
-      <div class="form-grid">
-        <div class="form-group"><label>Date</label><input type="date" id="ed-date" value="${r.date}"></div>
-        <div class="form-group"><label>Description</label><input type="text" id="ed-desc" value="${r.desc}"></div>
-        <div class="form-group"><label>Amount ($)</label><input type="number" id="ed-amount" value="${r.amount}" min="0" step="0.01"></div>
-        <div class="form-group"><label>Category</label>
-          <select id="ed-category">
-            ${['Supplies & Materials','Tools & Equipment','Packaging','Marketing','Travel / Mileage','Meals','Labor / Contractor','Phone / Internet','Other'].map(o => `<option${o===r.category?' selected':''}>${o}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="${r.notes||''}"></div>
-    `, 'expense', id);
-  }
-
-  function editInvoice(id) {
-    const r = data.invoices.find(x => x.id === id);
-    if (!r) return;
-    openEditModal('✏️ Edit Invoice', `
-      <div class="form-grid">
-        <div class="form-group"><label>Date</label><input type="date" id="ed-date" value="${r.date}"></div>
-        <div class="form-group"><label>Invoice #</label><input type="text" id="ed-num" value="${r.num}"></div>
-        <div class="form-group"><label>Client</label><input type="text" id="ed-client" value="${r.client === '—' ? '' : r.client}"></div>
-        <div class="form-group"><label>Service</label><input type="text" id="ed-service" value="${r.service === '—' ? '' : r.service}"></div>
-        <div class="form-group"><label>Amount ($)</label><input type="number" id="ed-amount" value="${r.amount}" min="0" step="0.01"></div>
-        <div class="form-group"><label>Miles</label><input type="number" id="ed-miles" value="${r.miles||0}" min="0" step="0.1"></div>
-        <div class="form-group"><label>Status</label>
-          <select id="ed-status">
-            ${['Pending','Paid','Unpaid'].map(o => `<option${o===r.status?' selected':''}>${o}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-      <div class="form-group"><label>Notes</label><input type="text" id="ed-notes" value="${r.notes||''}"></div>
-    `, 'invoice', id);
-  }
-
-  function saveEdit() {
-    const { type, id } = editState;
-    if (!type || !id) return;
-
-    if (type === 'mileage') {
-      const r = data.mileage.find(x => x.id === id);
-      if (!r) return;
-      r.date = document.getElementById('ed-date').value;
-      r.client = document.getElementById('ed-client').value || '—';
-      r.miles = parseFloat(document.getElementById('ed-miles').value) || r.miles;
-      r.type = document.getElementById('ed-type').value;
-      r.notes = document.getElementById('ed-notes').value;
-      save(); renderMileage();
-    } else if (type === 'expense') {
-      const r = data.expenses.find(x => x.id === id);
-      if (!r) return;
-      r.date = document.getElementById('ed-date').value;
-      r.desc = document.getElementById('ed-desc').value || r.desc;
-      r.amount = parseFloat(document.getElementById('ed-amount').value) || r.amount;
-      r.category = document.getElementById('ed-category').value;
-      r.notes = document.getElementById('ed-notes').value;
-      save(); renderExpenses();
-    } else if (type === 'invoice') {
-      const r = data.invoices.find(x => x.id === id);
-      if (!r) return;
-      r.date = document.getElementById('ed-date').value;
-      r.num = document.getElementById('ed-num').value || r.num;
-      r.client = document.getElementById('ed-client').value || '—';
-      r.service = document.getElementById('ed-service').value || '—';
-      r.amount = parseFloat(document.getElementById('ed-amount').value) || r.amount;
-      r.miles = parseFloat(document.getElementById('ed-miles').value) || 0;
-      r.status = document.getElementById('ed-status').value;
-      r.notes = document.getElementById('ed-notes').value;
-      save(); renderInvoices();
-    }
-
-    document.getElementById('edit-modal').classList.remove('open');
-    editState = { type: null, id: null };
-  }
-
-  // Init
-  renderMileage();
-  renderExpenses();
-  renderInvoices();
-  updateSummary();
-
-  // Pre-load today's supply run!
-  // (user can add manually)
+  renderMileage(); renderExpenses(); renderInvoices(); updateSummary();
 </script>
 </body>
 </html>
