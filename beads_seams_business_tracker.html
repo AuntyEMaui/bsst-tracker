@@ -521,10 +521,11 @@
           <th>Deduction</th>
           <th>Notes</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="mileage-tbody">
-        <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>
+        <tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -596,10 +597,11 @@
           <th>Amount</th>
           <th>Notes</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="expenses-tbody">
-        <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>
+        <tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -667,10 +669,11 @@
           <th>Status</th>
           <th>Notes</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="invoices-tbody">
-        <tr><td colspan="9"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>
+        <tr><td colspan="10"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -727,19 +730,19 @@
 <div class="modal-overlay" id="modal-invoice">
   <div class="modal">
     <div class="modal-title">✏️ Edit Invoice</div>
-    <input type="hidden" id="ei-id">
+    <input type="hidden" id="eiv-id">
     <div class="form-grid">
-      <div class="form-group"><label>Date</label><input type="date" id="ei-date"></div>
-      <div class="form-group"><label>Invoice #</label><input type="text" id="ei-num"></div>
-      <div class="form-group"><label>Client Name</label><input type="text" id="ei-client"></div>
-      <div class="form-group"><label>Service</label><input type="text" id="ei-service"></div>
-      <div class="form-group"><label>Amount ($)</label><input type="number" id="ei-amount" step="0.01"></div>
-      <div class="form-group"><label>Miles to Client</label><input type="number" id="ei-miles" step="0.1"></div>
+      <div class="form-group"><label>Date</label><input type="date" id="eiv-date"></div>
+      <div class="form-group"><label>Invoice #</label><input type="text" id="eiv-num"></div>
+      <div class="form-group"><label>Client Name</label><input type="text" id="eiv-client"></div>
+      <div class="form-group"><label>Service</label><input type="text" id="eiv-service"></div>
+      <div class="form-group"><label>Amount ($)</label><input type="number" id="eiv-amount" step="0.01"></div>
+      <div class="form-group"><label>Miles to Client</label><input type="number" id="eiv-miles" step="0.1"></div>
       <div class="form-group"><label>Status</label>
-        <select id="ei-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select>
+        <select id="eiv-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select>
       </div>
     </div>
-    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="ei-notes"></div>
+    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="eiv-notes"></div>
     <div class="modal-actions">
       <button class="btn" onclick="saveInvoiceEdit()">Save Changes</button>
       <button class="btn btn-ghost" onclick="closeModal('modal-invoice')">Cancel</button>
@@ -989,30 +992,30 @@
   function editInvoice(id) {
     const r = data.invoices.find(r => r.id === id);
     if (!r) return;
-    document.getElementById('ei-id').value = id;
-    document.getElementById('ei-date').value = r.date;
-    document.getElementById('ei-num').value = r.num;
-    document.getElementById('ei-client').value = r.client;
-    document.getElementById('ei-service').value = r.service;
-    document.getElementById('ei-amount').value = r.amount;
-    document.getElementById('ei-miles').value = r.miles || '';
-    document.getElementById('ei-status').value = r.status;
-    document.getElementById('ei-notes').value = r.notes || '';
+    document.getElementById('eiv-id').value = id;
+    document.getElementById('eiv-date').value = r.date;
+    document.getElementById('eiv-num').value = r.num;
+    document.getElementById('eiv-client').value = r.client;
+    document.getElementById('eiv-service').value = r.service;
+    document.getElementById('eiv-amount').value = r.amount;
+    document.getElementById('eiv-miles').value = r.miles || '';
+    document.getElementById('eiv-status').value = r.status;
+    document.getElementById('eiv-notes').value = r.notes || '';
     openModal('modal-invoice');
   }
 
   function saveInvoiceEdit() {
-    const id = parseInt(document.getElementById('ei-id').value);
+    const id = parseInt(document.getElementById('eiv-id').value);
     const r = data.invoices.find(r => r.id === id);
     if (!r) return;
-    r.date = document.getElementById('ei-date').value;
-    r.num = document.getElementById('ei-num').value;
-    r.client = document.getElementById('ei-client').value || '—';
-    r.service = document.getElementById('ei-service').value || '—';
-    r.amount = parseFloat(document.getElementById('ei-amount').value) || r.amount;
-    r.miles = parseFloat(document.getElementById('ei-miles').value) || 0;
-    r.status = document.getElementById('ei-status').value;
-    r.notes = document.getElementById('ei-notes').value;
+    r.date = document.getElementById('eiv-date').value;
+    r.num = document.getElementById('eiv-num').value;
+    r.client = document.getElementById('eiv-client').value || '—';
+    r.service = document.getElementById('eiv-service').value || '—';
+    r.amount = parseFloat(document.getElementById('eiv-amount').value) || r.amount;
+    r.miles = parseFloat(document.getElementById('eiv-miles').value) || 0;
+    r.status = document.getElementById('eiv-status').value;
+    r.notes = document.getElementById('eiv-notes').value;
     closeModal('modal-invoice');
     save(); renderInvoices();
   }
