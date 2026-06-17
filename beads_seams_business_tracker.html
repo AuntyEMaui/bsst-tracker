@@ -480,6 +480,34 @@ textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
   </div>
 </div>
 
+<!-- GET TAX SECTION -->
+<div style="padding: 0 16px; max-width: 640px; margin: 10px auto 0;">
+  <div style="background: linear-gradient(135deg, #6B3F6B 0%, #4A2A5A 100%); border-radius: 14px; padding: 16px;">
+    <div style="font-size:0.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:10px;">🌺 Hawaii GET Tax (4.167%)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div>
+        <div style="font-size:0.62rem;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:4px;">Collected</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#FFD700;" id="getCollected">$0.00</div>
+      </div>
+      <div>
+        <div style="font-size:0.62rem;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:4px;">Paid Out</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#90EE90;" id="getPaid">$0.00</div>
+      </div>
+      <div>
+        <div style="font-size:0.62rem;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:4px;">Still Owe</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#FFB6C1;" id="getOwed">$0.00</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+      <input type="number" id="getPaymentAmt" placeholder="Enter GET payment amount" step="0.01" min="0"
+        style="flex:1;border:1.5px solid rgba(255,255,255,0.3);border-radius:8px;padding:8px 12px;font-size:0.85rem;background:rgba(255,255,255,0.15);color:white;" />
+      <button onclick="logGetPayment()"
+        style="background:#FFD700;color:#2C1A0E;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:0.8rem;cursor:pointer;white-space:nowrap;">Log Payment</button>
+    </div>
+    <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:8px;">Filed quarterly — Jan · Apr · Jul · Oct</div>
+  </div>
+</div>
+
 <!-- EXPORT -->
 <div class="export-row">
   <button class="export-btn" onclick="exportData()">
@@ -682,9 +710,10 @@ function loadState() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      state.mileage  = parsed.mileage  || [];
-      state.expenses = parsed.expenses || [];
-      state.invoices = parsed.invoices || [];
+      state.mileage     = parsed.mileage     || [];
+      state.expenses    = parsed.expenses    || [];
+      state.invoices    = parsed.invoices    || [];
+      state.getPayments = parsed.getPayments || [];
     }
   } catch(e) {}
   render();
@@ -721,6 +750,14 @@ function render() {
   document.getElementById('dashMileage').textContent  = fmt(mileDeduct);
   document.getElementById('dashWriteoff').textContent = fmt(writeoffs);
   document.getElementById('dashPending').textContent  = pending;
+
+  const GET_RATE = 0.04167;
+  const getCollected = totalIncome * GET_RATE;
+  const getPaid      = (state.getPayments || []).reduce((a,b) => a+b.amount, 0);
+  const getOwed      = Math.max(0, getCollected - getPaid);
+  document.getElementById('getCollected').textContent = fmt(getCollected);
+  document.getElementById('getPaid').textContent      = fmt(getPaid);
+  document.getElementById('getOwed').textContent      = fmt(getOwed);
 
   renderList('mileageList',  state.mileage,  renderMileItem);
   renderList('expenseList',  state.expenses, renderExpItem);
@@ -928,6 +965,14 @@ function exportData() {
 // ══════════════════════════════════════
 // TABS
 // ══════════════════════════════════════
+function logGetPayment() {
+  const amt = parseFloat(document.getElementById('getPaymentAmt').value);
+  if (!amt || amt <= 0) { alert('Please enter a payment amount.'); return; }
+  state.getPayments.push({ amount: amt, date: today() });
+  document.getElementById('getPaymentAmt').value = '';
+  persist();
+}
+
 function switchTab(name, el) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
