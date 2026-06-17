@@ -548,7 +548,7 @@ textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
 
     <div class="photo-snap" onclick="document.getElementById('receiptPhoto').click()">
       <div class="photo-snap-label">📷 Tap to Snap Receipt</div>
-      <input type="file" id="receiptPhoto" accept="image/*" capture="environment" onchange="previewPhoto(this)" />
+      <input type="file" id="receiptPhoto" accept="image/*" onchange="previewPhoto(this)" />
       <img id="photoPreview" class="photo-preview" alt="Receipt" />
     </div>
 
