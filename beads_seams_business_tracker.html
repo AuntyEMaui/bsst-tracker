@@ -4,1154 +4,959 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beads, Seams & Sticky Things — Business Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --rose: #d4826a;
-    --rose-light: #e8a898;
-    --rose-pale: #f5e0da;
-    --rose-blush: #fdf3f0;
-    --rose-deep: #b5604a;
-    --cream: #fefaf8;
-    --ink: #3a2a26;
-    --ink-soft: #7a5a52;
-    --white: #ffffff;
-    --shadow: rgba(180, 90, 70, 0.12);
-  }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap');
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --clay:      #A0522D;
+  --clay-md:   #C47A52;
+  --clay-lt:   #F5EBE4;
+  --clay-pale: #FBF5F1;
+  --blush:     #E8D0C0;
+  --ink:       #2C1A0E;
+  --mist:      #F9F4F0;
+  --white:     #FFFFFF;
+  --border:    #E8D8CC;
+  --success:   #5A7A5A;
+  --success-lt:#EDF3ED;
+  --gold:      #B8860B;
+  --gold-lt:   #FBF5E0;
+  --warn:      #C0392B;
+  --warn-lt:   #FDECEA;
+}
 
-  body {
-    font-family: 'Lato', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(circle at 10% 20%, rgba(212,130,106,0.07) 0%, transparent 50%),
-      radial-gradient(circle at 90% 80%, rgba(232,168,152,0.07) 0%, transparent 50%);
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* HEADER */
-  header {
-    background: var(--white);
-    border-bottom: 2px solid var(--rose-pale);
-    padding: 24px 32px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 2px 16px var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--mist);
+  color: var(--ink);
+  min-height: 100vh;
+}
 
-  .logo-circle {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: var(--rose-pale);
-    border: 2px solid var(--rose-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
+/* ── HEADER ── */
+.app-header {
+  background: var(--white);
+  padding: 20px 20px 0;
+  border-bottom: 1px solid var(--border);
+}
 
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--rose-deep);
-    line-height: 1.2;
-  }
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
 
-  header p {
-    font-size: 0.75rem;
-    color: var(--ink-soft);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
+.brand-icon {
+  width: 56px; height: 56px;
+  background: var(--clay-lt);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
 
-  .header-right {
-    margin-left: auto;
-    text-align: right;
-  }
+.brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--clay);
+  line-height: 1.2;
+}
 
-  .year-badge {
-    background: var(--rose-pale);
-    color: var(--rose-deep);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
+.brand-sub {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #A08070;
+  margin-top: 3px;
+}
 
-  /* SUMMARY CARDS */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-    padding: 28px 32px 0;
-  }
+.year-badge {
+  margin-left: auto;
+  background: var(--clay-lt);
+  color: var(--clay);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
 
-  .card {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 20px 22px;
-    border: 1.5px solid var(--rose-pale);
-    box-shadow: 0 2px 12px var(--shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+/* ── EXPORT NUDGE BANNER ── */
+.nudge-banner {
+  background: var(--gold-lt);
+  border: 1px solid #E8D080;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  display: none;
+}
+.nudge-banner.visible { display: flex; }
+.nudge-text { font-size: 0.8rem; color: #7A6010; font-weight: 500; }
+.nudge-btn {
+  background: var(--gold);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow); }
+/* ── DASHBOARD TILES ── */
+.dashboard {
+  padding: 16px 16px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 640px;
+  margin: 0 auto;
+}
 
-  .card-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
+.tile {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+}
 
-  .card-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--rose-deep);
-    font-weight: 600;
-  }
+.tile.featured {
+  grid-column: 1 / -1;
+  background: var(--clay);
+  border-color: transparent;
+}
 
-  .card-sub {
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    margin-top: 4px;
-  }
+.tile-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #A08070;
+  margin-bottom: 6px;
+}
 
-  .card.accent {
-    background: linear-gradient(135deg, var(--rose-deep), var(--rose));
-    border-color: transparent;
-  }
+.tile.featured .tile-label { color: rgba(255,255,255,0.6); }
 
-  .card.accent .card-label,
-  .card.accent .card-sub { color: rgba(255,255,255,0.75); }
-  .card.accent .card-value { color: white; }
+.tile-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--clay);
+  line-height: 1;
+}
 
-  /* TABS */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    padding: 28px 32px 0;
-  }
+.tile.featured .tile-value { color: var(--white); font-size: 2.4rem; }
+.tile-sub { font-size: 0.72rem; color: #B09080; margin-top: 4px; }
+.tile.featured .tile-sub { color: rgba(255,255,255,0.55); }
 
-  .tab {
-    background: var(--white);
-    border: 1.5px solid var(--rose-pale);
-    border-radius: 30px;
-    padding: 8px 22px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.04em;
-  }
+.tile-value.expense { color: var(--clay-md); }
+.tile-value.green   { color: var(--success); }
 
-  .tab:hover { border-color: var(--rose-light); color: var(--rose-deep); }
+/* ── EXPORT BTN ── */
+.export-row {
+  padding: 12px 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
 
-  .tab.active {
-    background: var(--rose-deep);
-    border-color: var(--rose-deep);
-    color: white;
-  }
+.export-btn {
+  width: 100%;
+  background: var(--white);
+  border: 1.5px solid var(--clay-md);
+  border-radius: 10px;
+  padding: 11px;
+  color: var(--clay);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.export-btn:hover { background: var(--clay-lt); }
 
-  /* SECTION */
-  .section {
-    padding: 24px 32px 40px;
-    display: none;
-  }
+/* ── TABS ── */
+.tab-bar {
+  display: flex;
+  padding: 0 16px;
+  gap: 8px;
+  max-width: 640px;
+  margin: 0 auto 0;
+}
 
-  .section.active { display: block; }
+.tab-btn {
+  flex: 1;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #A08070;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+.tab-btn.active {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: var(--white);
+}
 
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: var(--rose-deep);
-    font-style: italic;
-  }
+/* ── MAIN ── */
+main {
+  padding: 16px 16px 80px;
+  max-width: 640px;
+  margin: 0 auto;
+}
 
-  /* FORMS */
-  .form-card {
-    background: var(--white);
-    border-radius: 16px;
-    border: 1.5px solid var(--rose-pale);
-    padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 12px var(--shadow);
-  }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 16px;
-  }
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(160,82,45,0.06);
+}
 
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--clay);
+  margin-bottom: 14px;
+}
 
-  label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-soft);
-    font-weight: 700;
-  }
+/* ── FORM ── */
+.form-group {
+  margin-bottom: 12px;
+}
 
-  input, select, textarea {
-    border: 1.5px solid var(--rose-pale);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 0.88rem;
-    font-family: 'Lato', sans-serif;
-    color: var(--ink);
-    background: var(--rose-blush);
-    transition: border-color 0.2s;
-    outline: none;
-  }
+.form-row {
+  display: flex;
+  gap: 10px;
+}
 
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--rose);
-    background: white;
-  }
+.form-row .form-group { flex: 1; }
 
-  textarea { resize: vertical; min-height: 70px; }
+label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #907060;
+  margin-bottom: 5px;
+}
 
-  .btn {
-    background: var(--rose-deep);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 10px 28px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-    font-family: 'Lato', sans-serif;
-  }
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  background: var(--clay-pale);
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
 
-  .btn:hover { background: var(--rose); transform: translateY(-1px); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--clay-md);
+  background: var(--white);
+}
 
-  .btn-ghost {
-    background: transparent;
-    color: var(--rose-deep);
-    border: 1.5px solid var(--rose-light);
-  }
+textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
 
-  .btn-ghost:hover { background: var(--rose-pale); }
+/* Photo snap */
+.photo-snap {
+  border: 2px dashed var(--blush);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--clay-pale);
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.photo-snap:hover { border-color: var(--clay-md); background: var(--clay-lt); }
+.photo-snap-label { font-size: 0.85rem; font-weight: 600; color: var(--clay); }
+.photo-snap input { display: none; }
+.photo-preview { max-width: 100%; border-radius: 8px; margin-top: 8px; display: none; max-height: 200px; object-fit: cover; }
 
-  .btn-sm {
-    padding: 6px 16px;
-    font-size: 0.75rem;
-  }
+/* Rate badge */
+.rate-badge {
+  background: var(--clay-lt);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  color: var(--clay);
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .btn-danger {
-    background: transparent;
-    color: #c0392b;
-    border: 1.5px solid #e8a0a0;
-    font-size: 0.75rem;
-    padding: 5px 12px;
-  }
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
 
-  .btn-danger:hover { background: #fff0f0; }
+.btn-clay    { background: var(--clay); color: var(--white); }
+.btn-success { background: var(--success); color: var(--white); }
+.btn:hover   { opacity: 0.88; transform: translateY(-1px); }
+.btn:active  { transform: translateY(0); }
 
-  /* TABLE */
-  .table-wrap {
-    background: var(--white);
-    border-radius: 16px;
-    border: 1.5px solid var(--rose-pale);
-    overflow: hidden;
-    box-shadow: 0 2px 12px var(--shadow);
-  }
+/* ── ENTRY LIST ── */
+.section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #B09080;
+  margin: 16px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
+.entry-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.entry-item:last-child { border-bottom: none; }
 
-  thead {
-    background: linear-gradient(135deg, var(--rose-pale), #fbeee9);
-  }
+.entry-left { flex: 1; min-width: 0; }
+.entry-desc {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.entry-meta { font-size: 0.72rem; color: #B09080; margin-top: 2px; line-height: 1.4; }
+.entry-thumb { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
 
-  th {
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--rose-deep);
-    font-weight: 700;
-    white-space: nowrap;
-  }
+.entry-right { text-align: right; flex-shrink: 0; }
+.entry-amount { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; }
+.entry-amount.income  { color: var(--success); }
+.entry-amount.expense { color: var(--clay); }
 
-  td {
-    padding: 12px 16px;
-    border-top: 1px solid var(--rose-pale);
-    color: var(--ink);
-    vertical-align: middle;
-  }
+.del-btn {
+  background: none;
+  border: none;
+  color: #D0B8A8;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  display: block;
+  margin-top: 2px;
+  transition: color 0.2s;
+}
+.del-btn:hover { color: var(--warn); }
 
-  tr:hover td { background: var(--rose-blush); }
+.empty-state {
+  text-align: center;
+  padding: 20px;
+  color: #C0A898;
+  font-size: 0.83rem;
+  font-style: italic;
+}
 
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
-    color: var(--ink-soft);
-  }
+/* Status pills */
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.pill-pending  { background: var(--gold-lt);   color: var(--gold); }
+.pill-paid     { background: var(--success-lt); color: var(--success); }
+.pill-canceled { background: var(--warn-lt);    color: var(--warn); }
 
-  .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
-  .empty-state p { font-size: 0.88rem; }
-
-  /* STATUS BADGES */
-  .badge {
-    display: inline-block;
-    border-radius: 20px;
-    padding: 3px 12px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-
-  .badge-paid { background: #e8f8f0; color: #27ae60; }
-  .badge-pending { background: #fff8e8; color: #e67e22; }
-  .badge-unpaid { background: #ffeaea; color: #c0392b; }
-
-  /* MILEAGE SPECIFIC */
-  .mileage-rate {
-    background: var(--rose-pale);
-    border-radius: 12px;
-    padding: 10px 16px;
-    font-size: 0.8rem;
-    color: var(--rose-deep);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .mileage-rate strong { font-size: 1rem; }
-
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: var(--rose-pale);
-    margin: 20px 0;
-  }
-
-  .form-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--rose-deep);
-    margin-bottom: 16px;
-    font-style: italic;
-  }
-
-  /* EDIT MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(58,42,38,0.55);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 28px;
-    width: 100%;
-    max-width: 560px;
-    box-shadow: 0 12px 48px rgba(58,42,38,0.25);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--rose-deep);
-    font-style: italic;
-    margin-bottom: 20px;
-  }
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .btn-edit {
-    background: transparent;
-    color: var(--rose-deep);
-    border: 1.5px solid var(--rose-light);
-    font-size: 0.75rem;
-    padding: 5px 12px;
-  }
-  .btn-edit:hover { background: var(--rose-pale); transform: none; }
-
-  .export-bar {
-    padding: 16px 32px 0;
-  }
-  .btn-export {
-    width: 100%;
-    padding: 12px;
-    background: var(--white);
-    color: var(--rose-deep);
-    border: 1.5px solid var(--rose-light);
-    border-radius: 30px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    font-family: 'Lato', sans-serif;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: all 0.2s;
-    box-shadow: 0 2px 12px var(--shadow);
-  }
-  .btn-export:hover { background: var(--rose-pale); transform: translateY(-1px); }
-
-  @media (max-width: 600px) {
-    header { padding: 16px 20px; }
-    .summary-grid, .tabs, .section { padding-left: 16px; padding-right: 16px; }
-    .card-value { font-size: 1.4rem; }
-    .form-grid { grid-template-columns: 1fr; }
-    table { font-size: 0.78rem; }
-    th, td { padding: 10px 10px; }
-  }
+@media (max-width: 380px) {
+  .tile-value { font-size: 1.6rem; }
+  .tile.featured .tile-value { font-size: 2rem; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo-circle">🧵</div>
-  <div>
-    <h1>Beads, Seams & Sticky Things</h1>
-    <p>Business Tracker — Mileage · Expenses · Invoices</p>
-  </div>
-  <div class="header-right">
-    <div class="year-badge" id="yearBadge">2026</div>
-  </div>
-</header>
-
-<!-- SUMMARY CARDS -->
-<div class="summary-grid">
-  <div class="card accent">
-    <div class="card-label">Total Income</div>
-    <div class="card-value" id="totalIncome">$0</div>
-    <div class="card-sub">invoices paid</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Total Expenses</div>
-    <div class="card-value" id="totalExpenses">$0</div>
-    <div class="card-sub">supply runs & costs</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Total Miles</div>
-    <div class="card-value" id="totalMiles">0</div>
-    <div class="card-sub">business miles driven</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Mileage Deduction</div>
-    <div class="card-value" id="mileageDeduction">$0</div>
-    <div class="card-sub">@ $0.70/mile (2026 IRS)</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Est. Write-Offs</div>
-    <div class="card-value" id="totalWriteoffs">$0</div>
-    <div class="card-sub">expenses + mileage</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Invoices Pending</div>
-    <div class="card-value" id="pendingInvoices">0</div>
-    <div class="card-sub">awaiting payment</div>
+<!-- HEADER -->
+<div class="app-header">
+  <div class="brand-row">
+    <div class="brand-icon">🧵</div>
+    <div>
+      <div class="brand-name">Beads, Seams &amp; Sticky Things</div>
+      <div class="brand-sub">Business Tracker · Mileage · Expenses · Invoices</div>
+    </div>
+    <div class="year-badge">2026</div>
   </div>
 </div>
 
-<!-- EXPORT BAR -->
-<div class="export-bar">
-  <button class="btn-export" onclick="exportData()">📥 Export My Data (Backup)</button>
+<!-- NUDGE BANNER -->
+<div class="nudge-banner" id="nudgeBanner">
+  <div class="nudge-text">📅 It's the 1st! Have you exported your data this month?</div>
+  <button class="nudge-btn" onclick="exportData()">Export Now</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+  <div class="tile featured">
+    <div class="tile-label">Total Income</div>
+    <div class="tile-value" id="dashIncome">$0.00</div>
+    <div class="tile-sub">invoices paid</div>
+  </div>
+  <div class="tile">
+    <div class="tile-label">Total Expenses</div>
+    <div class="tile-value expense" id="dashExpense">$0.00</div>
+    <div class="tile-sub">supply runs &amp; costs</div>
+  </div>
+  <div class="tile">
+    <div class="tile-label">Total Miles</div>
+    <div class="tile-value expense" id="dashMiles">0.0</div>
+    <div class="tile-sub">business miles driven</div>
+  </div>
+  <div class="tile">
+    <div class="tile-label">Mileage Deduction</div>
+    <div class="tile-value green" id="dashMileage">$0.00</div>
+    <div class="tile-sub">@ $0.70/mile (2026 IRS)</div>
+  </div>
+  <div class="tile">
+    <div class="tile-label">Est. Write-Offs</div>
+    <div class="tile-value green" id="dashWriteoff">$0.00</div>
+    <div class="tile-sub">expenses + mileage</div>
+  </div>
+  <div class="tile">
+    <div class="tile-label">Invoices Pending</div>
+    <div class="tile-value expense" id="dashPending">0</div>
+    <div class="tile-sub">awaiting payment</div>
+  </div>
+</div>
+
+<!-- EXPORT -->
+<div class="export-row">
+  <button class="export-btn" onclick="exportData()">
+    📤 Export My Data (Backup)
+  </button>
 </div>
 
 <!-- TABS -->
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('mileage', this)">🚗 Mileage</button>
-  <button class="tab" onclick="switchTab('expenses', this)">🛍️ Expenses</button>
-  <button class="tab" onclick="switchTab('invoices', this)">📋 Invoices</button>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mileage', this)">🚗 Mileage</button>
+  <button class="tab-btn" onclick="switchTab('expenses', this)">🛍️ Expenses</button>
+  <button class="tab-btn" onclick="switchTab('invoices', this)">📋 Invoices</button>
 </div>
 
-<!-- ═══ MILEAGE TAB ═══ -->
-<div id="tab-mileage" class="section active">
-  <div class="section-header">
-    <div class="section-title">Mileage Log</div>
-    <div class="mileage-rate">IRS Rate 2026: <strong>$0.70/mi</strong></div>
-  </div>
+<main>
 
-  <div class="form-card">
-    <div class="form-title">Log a Trip</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" id="m-date">
-      </div>
-      <div class="form-group">
-        <label>Client / Purpose</label>
-        <input type="text" id="m-client" placeholder="e.g. Mrs. K — bridal fitting">
-      </div>
+<!-- ══ MILEAGE TAB ══ -->
+<div id="tab-mileage" class="tab-panel active">
+  <div class="card">
+    <div class="card-title">Log a Trip</div>
+    <div class="rate-badge">
+      <span>IRS Rate 2026</span>
+      <span>$0.70 / mi</span>
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="mDate" />
+    </div>
+    <div class="form-group">
+      <label>Client / Purpose</label>
+      <input type="text" id="mClient" placeholder="e.g. Mrs. K — bridal fitting" />
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Miles Driven</label>
-        <input type="number" id="m-miles" placeholder="0" min="0" step="0.1">
+        <input type="number" id="mMiles" placeholder="0" step="0.1" min="0" />
       </div>
       <div class="form-group">
         <label>Trip Type</label>
-        <select id="m-type">
+        <select id="mType">
           <option>Client visit</option>
           <option>Supply run</option>
           <option>Delivery</option>
-          <option>Consultation</option>
-          <option>Other</option>
+          <option>Event / Market</option>
+          <option>Other business</option>
         </select>
       </div>
     </div>
-    <div class="form-group" style="margin-bottom:16px">
-      <label>Notes</label>
-      <input type="text" id="m-notes" placeholder="Optional notes...">
+    <div class="form-group">
+      <label>Notes (optional)</label>
+      <textarea id="mNotes" placeholder="Optional notes..."></textarea>
     </div>
-    <button class="btn" onclick="addMileage()">+ Add Trip</button>
+    <button class="btn btn-clay" onclick="addMileage()">+ Add Trip</button>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Client / Purpose</th>
-          <th>Type</th>
-          <th>Miles</th>
-          <th>Deduction</th>
-          <th>Notes</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="mileage-tbody">
-        <tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>
-      </tbody>
-    </table>
+  <div class="section-label">Trip Log</div>
+  <div class="card">
+    <div id="mileageList"><div class="empty-state">No trips logged yet 🚗</div></div>
   </div>
 </div>
 
-<!-- ═══ EXPENSES TAB ═══ -->
-<div id="tab-expenses" class="section">
-  <div class="section-header">
-    <div class="section-title">Expense Log</div>
-  </div>
+<!-- ══ EXPENSES TAB ══ -->
+<div id="tab-expenses" class="tab-panel">
+  <div class="card">
+    <div class="card-title">Log an Expense</div>
 
-  <div class="form-card">
-    <div class="form-title">Log an Expense</div>
-
-    <!-- RECEIPT PHOTO CAPTURE -->
-    <div id="receipt-capture-area" style="margin-bottom:18px">
-      <input type="file" id="e-photo" accept="image/*" style="display:none" onchange="handleReceiptPhoto(event)">
-      <div id="receipt-preview-wrap" style="display:none; margin-bottom:12px; position:relative; display:none">
-        <img id="receipt-preview" style="max-width:100%; max-height:180px; border-radius:12px; border:2px solid var(--rose-light); object-fit:cover; display:block">
-        <button onclick="clearReceiptPhoto()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.5);color:white;border:none;border-radius:50%;width:28px;height:28px;font-size:14px;cursor:pointer;line-height:1">✕</button>
-        <div id="receipt-preview-label" style="font-size:0.72rem;color:var(--ink-soft);margin-top:6px;text-align:center"></div>
-      </div>
-      <button class="btn" style="width:100%;font-size:1rem;padding:14px;background:var(--rose-pale);color:var(--rose-deep);border:2px dashed var(--rose-light);border-radius:14px;letter-spacing:0.02em" onclick="document.getElementById('e-photo').click()">
-        📷 &nbsp;Tap to Snap Receipt
-      </button>
+    <div class="photo-snap" onclick="document.getElementById('receiptPhoto').click()">
+      <div class="photo-snap-label">📷 Tap to Snap Receipt</div>
+      <input type="file" id="receiptPhoto" accept="image/*" capture="environment" onchange="previewPhoto(this)" />
+      <img id="photoPreview" class="photo-preview" alt="Receipt" />
     </div>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" id="e-date">
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" id="e-desc" placeholder="e.g. Thread, beads, notions">
-      </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="eDate" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" id="eDesc" placeholder="e.g. Thread, beads, notions" />
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Amount ($)</label>
-        <input type="number" id="e-amount" placeholder="0.00" min="0" step="0.01">
+        <input type="number" id="eAmount" placeholder="0.00" step="0.01" min="0" />
       </div>
       <div class="form-group">
-        <label>Category</label>
-        <select id="e-category">
-          <option>Supplies & Materials</option>
-          <option>Tools & Equipment</option>
-          <option>Packaging</option>
-          <option>Marketing</option>
-          <option>Travel / Mileage</option>
-          <option>Phone / Internet</option>
-          <option>Other</option>
-        </select>
+        <label>Miles for this trip?</label>
+        <input type="number" id="eMiles" placeholder="0 (optional)" step="0.1" min="0" />
       </div>
     </div>
-    <div class="form-group" style="margin-bottom:16px">
-      <label>Receipt / Notes</label>
-      <input type="text" id="e-notes" placeholder="Store, receipt #, notes...">
+    <div class="form-group">
+      <label>Category</label>
+      <select id="eCategory">
+        <option>Supplies & Materials</option>
+        <option>Tools & Equipment</option>
+        <option>Fabric & Notions</option>
+        <option>Beads & Jewelry Supplies</option>
+        <option>Packaging</option>
+        <option>Marketing</option>
+        <option>Business Fees</option>
+        <option>Phone / Tech</option>
+        <option>Other</option>
+      </select>
     </div>
-    <button class="btn" onclick="addExpense()">+ Add Expense</button>
+    <div class="form-group">
+      <label>Receipt / Notes</label>
+      <textarea id="eNotes" placeholder="Store, receipt #, notes..."></textarea>
+    </div>
+    <button class="btn btn-clay" onclick="addExpense()">+ Add Expense</button>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Receipt</th>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Category</th>
-          <th>Amount</th>
-          <th>Notes</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="expenses-tbody">
-        <tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>
-      </tbody>
-    </table>
+  <div class="section-label">Expense Log</div>
+  <div class="card">
+    <div id="expenseList"><div class="empty-state">No expenses logged yet 🛍️</div></div>
   </div>
 </div>
 
-<!-- ═══ INVOICES TAB ═══ -->
-<div id="tab-invoices" class="section">
-  <div class="section-header">
-    <div class="section-title">Invoice Log</div>
-  </div>
-
-  <div class="form-card">
-    <div class="form-title">Create an Invoice</div>
-    <div class="form-grid">
+<!-- ══ INVOICES TAB ══ -->
+<div id="tab-invoices" class="tab-panel">
+  <div class="card">
+    <div class="card-title">Create an Invoice</div>
+    <div class="form-row">
       <div class="form-group">
         <label>Date</label>
-        <input type="date" id="i-date">
+        <input type="date" id="iDate" />
       </div>
       <div class="form-group">
         <label>Invoice #</label>
-        <input type="text" id="i-num" placeholder="e.g. INV-001">
+        <input type="text" id="iNum" placeholder="INV-001" />
       </div>
-      <div class="form-group">
-        <label>Client Name</label>
-        <input type="text" id="i-client" placeholder="Client name">
-      </div>
-      <div class="form-group">
-        <label>Service</label>
-        <input type="text" id="i-service" placeholder="e.g. Bridal hem, jewelry">
-      </div>
+    </div>
+    <div class="form-group">
+      <label>Client Name</label>
+      <input type="text" id="iClient" placeholder="Client name" />
+    </div>
+    <div class="form-group">
+      <label>Service</label>
+      <input type="text" id="iService" placeholder="e.g. Bridal hem, jewelry" />
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Amount ($)</label>
-        <input type="number" id="i-amount" placeholder="0.00" min="0" step="0.01">
+        <input type="number" id="iAmount" placeholder="0.00" step="0.01" min="0" />
       </div>
       <div class="form-group">
         <label>Miles to Client</label>
-        <input type="number" id="i-miles" placeholder="0" min="0" step="0.1">
-      </div>
-      <div class="form-group">
-        <label>Status</label>
-        <select id="i-status">
-          <option>Pending</option>
-          <option>Paid</option>
-          <option>Unpaid</option>
-        </select>
+        <input type="number" id="iMiles" placeholder="0" step="0.1" min="0" />
       </div>
     </div>
-    <div class="form-group" style="margin-bottom:16px">
-      <label>Notes</label>
-      <input type="text" id="i-notes" placeholder="Alterations details, deposit info...">
+    <div class="form-group">
+      <label>Status</label>
+      <select id="iStatus">
+        <option>Pending</option>
+        <option>Paid</option>
+        <option>Canceled</option>
+      </select>
     </div>
-    <button class="btn" onclick="addInvoice()">+ Add Invoice</button>
+    <div class="form-group">
+      <label>Notes (optional)</label>
+      <textarea id="iNotes" placeholder="Any details..."></textarea>
+    </div>
+    <button class="btn btn-success" onclick="addInvoice()">+ Save Invoice</button>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Invoice #</th>
-          <th>Client</th>
-          <th>Service</th>
-          <th>Miles</th>
-          <th>Amount</th>
-          <th>Status</th>
-          <th>Notes</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="invoices-tbody">
-        <tr><td colspan="10"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>
-      </tbody>
-    </table>
+  <div class="section-label">Invoice Log</div>
+  <div class="card">
+    <div id="invoiceList"><div class="empty-state">No invoices yet 📋</div></div>
   </div>
 </div>
 
-<!-- EDIT MODALS -->
-<!-- Mileage Edit -->
-<div class="modal-overlay" id="modal-mileage">
-  <div class="modal">
-    <div class="modal-title">✏️ Edit Trip</div>
-    <input type="hidden" id="em-id">
-    <div class="form-grid">
-      <div class="form-group"><label>Date</label><input type="date" id="em-date"></div>
-      <div class="form-group"><label>Client / Purpose</label><input type="text" id="em-client"></div>
-      <div class="form-group"><label>Miles Driven</label><input type="number" id="em-miles" step="0.1"></div>
-      <div class="form-group"><label>Trip Type</label>
-        <select id="em-type">
-          <option>Client visit</option><option>Supply run</option><option>Delivery</option><option>Consultation</option><option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="em-notes"></div>
-    <div class="modal-actions">
-      <button class="btn" onclick="saveMileageEdit()">Save Changes</button>
-      <button class="btn btn-ghost" onclick="closeModal('modal-mileage')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Expense Edit -->
-<div class="modal-overlay" id="modal-expense">
-  <div class="modal">
-    <div class="modal-title">✏️ Edit Expense</div>
-    <input type="hidden" id="ee-id">
-    <div class="form-grid">
-      <div class="form-group"><label>Date</label><input type="date" id="ee-date"></div>
-      <div class="form-group"><label>Description</label><input type="text" id="ee-desc"></div>
-      <div class="form-group"><label>Amount ($)</label><input type="number" id="ee-amount" step="0.01"></div>
-      <div class="form-group"><label>Category</label>
-        <select id="ee-category">
-          <option>Supplies & Materials</option><option>Tools & Equipment</option><option>Packaging</option><option>Marketing</option><option>Travel / Mileage</option><option>Phone / Internet</option><option>Meals</option><option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="ee-notes"></div>
-    <div class="modal-actions">
-      <button class="btn" onclick="saveExpenseEdit()">Save Changes</button>
-      <button class="btn btn-ghost" onclick="closeModal('modal-expense')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Invoice Edit -->
-<div class="modal-overlay" id="modal-invoice">
-  <div class="modal">
-    <div class="modal-title">✏️ Edit Invoice</div>
-    <input type="hidden" id="eiv-id">
-    <div class="form-grid">
-      <div class="form-group"><label>Date</label><input type="date" id="eiv-date"></div>
-      <div class="form-group"><label>Invoice #</label><input type="text" id="eiv-num"></div>
-      <div class="form-group"><label>Client Name</label><input type="text" id="eiv-client"></div>
-      <div class="form-group"><label>Service</label><input type="text" id="eiv-service"></div>
-      <div class="form-group"><label>Amount ($)</label><input type="number" id="eiv-amount" step="0.01"></div>
-      <div class="form-group"><label>Miles to Client</label><input type="number" id="eiv-miles" step="0.1"></div>
-      <div class="form-group"><label>Status</label>
-        <select id="eiv-status"><option>Pending</option><option>Paid</option><option>Unpaid</option></select>
-      </div>
-    </div>
-    <div class="form-group" style="margin-bottom:0"><label>Notes</label><input type="text" id="eiv-notes"></div>
-    <div class="modal-actions">
-      <button class="btn" onclick="saveInvoiceEdit()">Save Changes</button>
-      <button class="btn btn-ghost" onclick="closeModal('modal-invoice')">Cancel</button>
-    </div>
-  </div>
-</div>
+</main>
 
 <script>
-  const IRS_RATE = 0.70;
-  let data = JSON.parse(localStorage.getItem('bsst_data') || '{"mileage":[],"expenses":[],"invoices":[]}');
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+const IRS_RATE = 0.70;
+const STORAGE_KEY = 'bsst-tracker-v4';
 
-  function save() { localStorage.setItem('bsst_data', JSON.stringify(data)); updateSummary(); }
-  function fmt$(n) { return '$' + parseFloat(n||0).toFixed(2); }
-  function fmtDate(d) { if (!d) return ''; const [y,m,day] = d.split('-'); return `${m}/${day}/${y}`; }
-  function today() { return new Date().toISOString().split('T')[0]; }
+let state = {
+  mileage:  [],
+  expenses: [],
+  invoices: []
+};
 
-  document.querySelectorAll('input[type="date"]').forEach(el => el.value = today());
-
-  function switchTab(name, el) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
+// ══════════════════════════════════════
+// STORAGE — bulletproof save
+// ══════════════════════════════════════
+async function persist() {
+  const json = JSON.stringify(state);
+  let saved = false;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const result = await window.storage.set(STORAGE_KEY, json);
+      if (result) { saved = true; break; }
+    } catch(e) {
+      await new Promise(r => setTimeout(r, 100));
+    }
   }
+  if (!saved) console.warn('Storage save failed after 3 attempts');
+  render();
+}
 
-  // ── EXPORT ──
-  function exportData() {
-    const totalMiles = data.mileage.reduce((s,r)=>s+r.miles,0);
-    const totalExpenses = data.expenses.reduce((s,r)=>s+r.amount,0);
-    const totalIncome = data.invoices.filter(i=>i.status==='Paid').reduce((s,r)=>s+r.amount,0);
+async function loadState() {
+  try {
+    const saved = await window.storage.get(STORAGE_KEY);
+    if (saved && saved.value) {
+      const parsed = JSON.parse(saved.value);
+      state.mileage  = parsed.mileage  || [];
+      state.expenses = parsed.expenses || [];
+      state.invoices = parsed.invoices || [];
+    }
+  } catch(e) { /* fresh start */ }
+  render();
+  checkNudge();
+}
 
-    let csv = '';
-
-    // Mileage sheet
-    csv += 'MILEAGE LOG\n';
-    csv += 'Date,Client / Purpose,Trip Type,Miles,Deduction,Notes\n';
-    data.mileage.forEach(r => {
-      csv += [fmtDate(r.date), r.client, r.type, r.miles, (r.miles*IRS_RATE).toFixed(2), r.notes||''].map(v=>{
-        const s=String(v).replace(/"/g,'""');
-        return s.includes(',')||s.includes('"')?'"'+s+'"':s;
-      }).join(',') + '\n';
-    });
-    csv += ',,,Total Miles:,' + totalMiles.toFixed(1) + '\n\n';
-
-    // Expenses sheet
-    csv += 'EXPENSES\n';
-    csv += 'Date,Description,Category,Amount,Notes\n';
-    data.expenses.forEach(r => {
-      csv += [fmtDate(r.date), r.desc, r.category, r.amount.toFixed(2), r.notes||''].map(v=>{
-        const s=String(v).replace(/"/g,'""');
-        return s.includes(',')||s.includes('"')?'"'+s+'"':s;
-      }).join(',') + '\n';
-    });
-    csv += ',,Total Expenses:,' + totalExpenses.toFixed(2) + '\n\n';
-
-    // Invoices sheet
-    csv += 'INVOICES\n';
-    csv += 'Date,Invoice #,Client,Service,Miles,Amount,Status,Notes\n';
-    data.invoices.forEach(r => {
-      csv += [fmtDate(r.date), r.num, r.client, r.service, r.miles||0, r.amount.toFixed(2), r.status, r.notes||''].map(v=>{
-        const s=String(v).replace(/"/g,'""');
-        return s.includes(',')||s.includes('"')?'"'+s+'"':s;
-      }).join(',') + '\n';
-    });
-    csv += ',,,,,Total Paid:,' + totalIncome.toFixed(2) + '\n\n';
-
-    // Summary
-    csv += 'SUMMARY\n';
-    csv += 'Total Miles,' + totalMiles.toFixed(1) + '\n';
-    csv += 'Mileage Deduction,' + fmt$(totalMiles * IRS_RATE) + '\n';
-    csv += 'Total Expenses,' + fmt$(totalExpenses) + '\n';
-    csv += 'Total Income (Paid),' + fmt$(totalIncome) + '\n';
-    csv += 'Est. Total Write-offs,' + fmt$(totalExpenses + totalMiles * IRS_RATE) + '\n';
-
-    const today = new Date().toISOString().slice(0,10);
-    const filename = 'BSST_Business_Tracker_' + today + '.csv';
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url);
-    alert('✅ Exported! Save ' + filename + ' to your Google Drive (evettegreen808) for safe keeping!');
+// ══════════════════════════════════════
+// NUDGE — show on 1st of month
+// ══════════════════════════════════════
+function checkNudge() {
+  const today = new Date();
+  if (today.getDate() === 1) {
+    document.getElementById('nudgeBanner').classList.add('visible');
   }
+}
 
-  // ── MODAL HELPERS ──
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-  // Close on overlay click
-  document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+function render() {
+  const totalMiles   = [...state.mileage.map(m => m.miles),
+                        ...state.expenses.filter(e => e.miles > 0).map(e => e.miles),
+                        ...state.invoices.filter(i => i.miles > 0).map(i => i.miles)]
+                        .reduce((a, b) => a + b, 0);
+  const totalExpense = state.expenses.reduce((a, b) => a + b.amount, 0);
+  const totalIncome  = state.invoices.filter(i => i.status === 'Paid').reduce((a, b) => a + b.amount, 0);
+  const mileDeduct   = totalMiles * IRS_RATE;
+  const writeoffs    = totalExpense + mileDeduct;
+  const pending      = state.invoices.filter(i => i.status === 'Pending').length;
+
+  document.getElementById('dashIncome').textContent   = fmt(totalIncome);
+  document.getElementById('dashExpense').textContent  = fmt(totalExpense);
+  document.getElementById('dashMiles').textContent    = totalMiles.toFixed(1);
+  document.getElementById('dashMileage').textContent  = fmt(mileDeduct);
+  document.getElementById('dashWriteoff').textContent = fmt(writeoffs);
+  document.getElementById('dashPending').textContent  = pending;
+
+  renderList('mileageList',  state.mileage,  renderMileItem);
+  renderList('expenseList',  state.expenses, renderExpItem);
+  renderList('invoiceList',  state.invoices, renderInvItem);
+
+  // Auto-increment invoice number
+  const nextNum = 'INV-' + String(state.invoices.length + 1).padStart(3, '0');
+  const iNumEl = document.getElementById('iNum');
+  if (iNumEl && !iNumEl.value) iNumEl.value = nextNum;
+}
+
+function renderList(id, arr, fn) {
+  const el = document.getElementById(id);
+  if (!arr || arr.length === 0) {
+    el.innerHTML = '<div class="empty-state">Nothing logged yet 🌺</div>';
+    return;
+  }
+  el.innerHTML = [...arr].reverse().map((item, i) => fn(item, arr.length - 1 - i)).join('');
+}
+
+function renderMileItem(item, idx) {
+  const deduct = (item.miles * IRS_RATE).toFixed(2);
+  return `<div class="entry-item">
+    <div class="entry-left">
+      <div class="entry-desc">${item.client || item.type}</div>
+      <div class="entry-meta">${item.type} · ${item.date}${item.notes ? '<br>' + item.notes : ''}</div>
+    </div>
+    <div class="entry-right">
+      <div class="entry-amount expense">${item.miles} mi</div>
+      <div style="font-size:0.72rem;color:#A08070">$${deduct} deduct</div>
+      <button class="del-btn" onclick="delItem('mileage',${idx})">✕</button>
+    </div>
+  </div>`;
+}
+
+function renderExpItem(item, idx) {
+  return `<div class="entry-item">
+    ${item.photo ? `<img src="${item.photo}" class="entry-thumb" alt="receipt">` : ''}
+    <div class="entry-left">
+      <div class="entry-desc">${item.desc}</div>
+      <div class="entry-meta">${item.category} · ${item.date}${item.miles > 0 ? ' · ' + item.miles + ' mi' : ''}${item.notes ? '<br>' + item.notes : ''}</div>
+    </div>
+    <div class="entry-right">
+      <div class="entry-amount expense">${fmt(item.amount)}</div>
+      <button class="del-btn" onclick="delItem('expenses',${idx})">✕</button>
+    </div>
+  </div>`;
+}
+
+function renderInvItem(item, idx) {
+  const pillClass = item.status === 'Paid' ? 'pill-paid' : item.status === 'Canceled' ? 'pill-canceled' : 'pill-pending';
+  return `<div class="entry-item">
+    <div class="entry-left">
+      <div class="entry-desc">${item.client} — ${item.service}</div>
+      <div class="entry-meta">${item.num} · ${item.date}${item.miles > 0 ? ' · ' + item.miles + ' mi' : ''}${item.notes ? '<br>' + item.notes : ''}</div>
+      <span class="pill ${pillClass}" style="margin-top:4px;display:inline-block">${item.status}</span>
+    </div>
+    <div class="entry-right">
+      <div class="entry-amount ${item.status === 'Paid' ? 'income' : 'expense'}">${fmt(item.amount)}</div>
+      <button class="del-btn" onclick="delItem('invoices',${idx})">✕</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function addMileage() {
+  const client = document.getElementById('mClient').value.trim();
+  const miles  = parseFloat(document.getElementById('mMiles').value) || 0;
+  const type   = document.getElementById('mType').value;
+  const date   = document.getElementById('mDate').value || today();
+  const notes  = document.getElementById('mNotes').value.trim();
+  if (miles <= 0) { alert('Please enter miles driven.'); return; }
+  state.mileage.push({ client, miles, type, date, notes });
+  document.getElementById('mClient').value = '';
+  document.getElementById('mMiles').value  = '';
+  document.getElementById('mNotes').value  = '';
+  document.getElementById('mDate').value   = '';
+  persist();
+}
+
+function addExpense() {
+  const desc     = document.getElementById('eDesc').value.trim();
+  const amount   = parseFloat(document.getElementById('eAmount').value);
+  const miles    = parseFloat(document.getElementById('eMiles').value) || 0;
+  const category = document.getElementById('eCategory').value;
+  const date     = document.getElementById('eDate').value || today();
+  const notes    = document.getElementById('eNotes').value.trim();
+  const preview  = document.getElementById('photoPreview');
+  const photo    = preview.style.display !== 'none' ? preview.src : null;
+
+  if (!desc)          { alert('Please enter a description.'); return; }
+  if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
+
+  state.expenses.push({ desc, amount, miles, category, date, notes, photo });
+
+  document.getElementById('eDesc').value   = '';
+  document.getElementById('eAmount').value = '';
+  document.getElementById('eMiles').value  = '';
+  document.getElementById('eNotes').value  = '';
+  document.getElementById('eDate').value   = '';
+  preview.style.display = 'none';
+  preview.src = '';
+  document.getElementById('receiptPhoto').value = '';
+
+  persist();
+}
+
+function addInvoice() {
+  const num     = document.getElementById('iNum').value.trim();
+  const client  = document.getElementById('iClient').value.trim();
+  const service = document.getElementById('iService').value.trim();
+  const amount  = parseFloat(document.getElementById('iAmount').value);
+  const miles   = parseFloat(document.getElementById('iMiles').value) || 0;
+  const status  = document.getElementById('iStatus').value;
+  const date    = document.getElementById('iDate').value || today();
+  const notes   = document.getElementById('iNotes').value.trim();
+
+  if (!client)  { alert('Please enter a client name.'); return; }
+  if (!service) { alert('Please enter the service.'); return; }
+  if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
+
+  state.invoices.push({ num, client, service, amount, miles, status, date, notes });
+
+  document.getElementById('iClient').value  = '';
+  document.getElementById('iService').value = '';
+  document.getElementById('iAmount').value  = '';
+  document.getElementById('iMiles').value   = '';
+  document.getElementById('iNotes').value   = '';
+  document.getElementById('iDate').value    = '';
+  document.getElementById('iNum').value     = '';
+  document.getElementById('iStatus').value  = 'Pending';
+
+  persist();
+}
+
+function delItem(list, idx) {
+  if (!confirm('Remove this entry?')) return;
+  state[list].splice(idx, 1);
+  persist();
+}
+
+// ══════════════════════════════════════
+// PHOTO PREVIEW
+// ══════════════════════════════════════
+function previewPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('photoPreview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// ══════════════════════════════════════
+// EXPORT
+// ══════════════════════════════════════
+function exportData() {
+  document.getElementById('nudgeBanner').style.display = 'none';
+  const now   = new Date();
+  const label = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  const totalMiles   = [...state.mileage.map(m => m.miles),
+                        ...state.expenses.filter(e => e.miles > 0).map(e => e.miles),
+                        ...state.invoices.filter(i => i.miles > 0).map(i => i.miles)]
+                        .reduce((a, b) => a + b, 0);
+  const totalExpense = state.expenses.reduce((a, b) => a + b.amount, 0);
+  const totalIncome  = state.invoices.filter(i => i.status === 'Paid').reduce((a, b) => a + b.amount, 0);
+  const mileDeduct   = totalMiles * IRS_RATE;
+
+  let csv = `BEADS SEAMS & STICKY THINGS — Export ${label}\n\n`;
+  csv += `SUMMARY\nTotal Income,${fmt(totalIncome)}\nTotal Expenses,${fmt(totalExpense)}\nTotal Miles,${totalMiles.toFixed(1)}\nMileage Deduction,${fmt(mileDeduct)}\nEst Write-offs,${fmt(totalExpense + mileDeduct)}\n\n`;
+
+  csv += `MILEAGE LOG\nDate,Client/Purpose,Miles,Type,Notes\n`;
+  state.mileage.forEach(m => {
+    csv += `${m.date},"${m.client}",${m.miles},"${m.type}","${m.notes}"\n`;
   });
 
-  // ── MILEAGE ──
-  function addMileage() {
-    const miles = parseFloat(document.getElementById('m-miles').value);
-    if (!miles || miles <= 0) { alert('Please enter miles driven.'); return; }
-    data.mileage.push({
-      id: Date.now(),
-      date: document.getElementById('m-date').value || today(),
-      client: document.getElementById('m-client').value || '—',
-      type: document.getElementById('m-type').value,
-      miles,
-      notes: document.getElementById('m-notes').value
-    });
-    document.getElementById('m-miles').value = '';
-    document.getElementById('m-client').value = '';
-    document.getElementById('m-notes').value = '';
-    save(); renderMileage();
-  }
+  csv += `\nEXPENSES\nDate,Description,Amount,Miles,Category,Notes\n`;
+  state.expenses.forEach(e => {
+    csv += `${e.date},"${e.desc}",${e.amount},${e.miles},"${e.category}","${e.notes}"\n`;
+  });
 
-  function deleteMileage(id) {
-    if (!confirm('Delete this trip?')) return;
-    data.mileage = data.mileage.filter(r => r.id !== id);
-    save(); renderMileage();
-  }
+  csv += `\nINVOICES\nDate,Invoice#,Client,Service,Amount,Miles,Status,Notes\n`;
+  state.invoices.forEach(i => {
+    csv += `${i.date},${i.num},"${i.client}","${i.service}",${i.amount},${i.miles},${i.status},"${i.notes}"\n`;
+  });
 
-  function editMileage(id) {
-    const r = data.mileage.find(r => r.id === id);
-    if (!r) return;
-    document.getElementById('em-id').value = id;
-    document.getElementById('em-date').value = r.date;
-    document.getElementById('em-client').value = r.client;
-    document.getElementById('em-miles').value = r.miles;
-    document.getElementById('em-type').value = r.type;
-    document.getElementById('em-notes').value = r.notes || '';
-    openModal('modal-mileage');
-  }
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `BSST_${now.getFullYear()}_${String(now.getMonth()+1).padStart(2,'0')}_export.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
-  function saveMileageEdit() {
-    const id = parseInt(document.getElementById('em-id').value);
-    const r = data.mileage.find(r => r.id === id);
-    if (!r) return;
-    r.date = document.getElementById('em-date').value;
-    r.client = document.getElementById('em-client').value || '—';
-    r.miles = parseFloat(document.getElementById('em-miles').value) || r.miles;
-    r.type = document.getElementById('em-type').value;
-    r.notes = document.getElementById('em-notes').value;
-    closeModal('modal-mileage');
-    save(); renderMileage();
-  }
+// ══════════════════════════════════════
+// TABS
+// ══════════════════════════════════════
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+}
 
-  function renderMileage() {
-    const tbody = document.getElementById('mileage-tbody');
-    if (!data.mileage.length) {
-      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🚗</div><p>No trips logged yet</p></div></td></tr>';
-      return;
-    }
-    tbody.innerHTML = [...data.mileage].reverse().map(r => `
-      <tr>
-        <td>${fmtDate(r.date)}</td>
-        <td>${r.client}</td>
-        <td>${r.type}</td>
-        <td><strong>${r.miles} mi</strong></td>
-        <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.miles * IRS_RATE)}</td>
-        <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td><button class="btn btn-edit btn-sm" onclick="editMileage(${r.id})">✏️</button></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteMileage(${r.id})">✕</button></td>
-      </tr>`).join('');
-  }
+// ══════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════
+function fmt(n) {
+  return '$' + (n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
-  // ── EXPENSES ──
-  let currentReceiptDataUrl = null;
+// Set today's date on all date fields
+document.querySelectorAll('input[type="date"]').forEach(el => {
+  if (!el.value) el.value = today();
+});
 
-  function handleReceiptPhoto(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      currentReceiptDataUrl = e.target.result;
-      const wrap = document.getElementById('receipt-preview-wrap');
-      wrap.style.display = 'block';
-      document.getElementById('receipt-preview').src = currentReceiptDataUrl;
-      document.getElementById('receipt-preview-label').textContent = '✅ Receipt captured — ' + file.name;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function clearReceiptPhoto() {
-    currentReceiptDataUrl = null;
-    document.getElementById('receipt-preview-wrap').style.display = 'none';
-    document.getElementById('e-photo').value = '';
-  }
-
-  function addExpense() {
-    const amount = parseFloat(document.getElementById('e-amount').value);
-    if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
-    data.expenses.push({
-      id: Date.now(),
-      date: document.getElementById('e-date').value || today(),
-      desc: document.getElementById('e-desc').value || 'Expense',
-      category: document.getElementById('e-category').value,
-      amount,
-      notes: document.getElementById('e-notes').value,
-      photo: currentReceiptDataUrl || null
-    });
-    document.getElementById('e-amount').value = '';
-    document.getElementById('e-desc').value = '';
-    document.getElementById('e-notes').value = '';
-    clearReceiptPhoto();
-    save(); renderExpenses();
-  }
-
-  function deleteExpense(id) {
-    if (!confirm('Delete this expense?')) return;
-    data.expenses = data.expenses.filter(r => r.id !== id);
-    save(); renderExpenses();
-  }
-
-  function editExpense(id) {
-    const r = data.expenses.find(r => r.id === id);
-    if (!r) return;
-    document.getElementById('ee-id').value = id;
-    document.getElementById('ee-date').value = r.date;
-    document.getElementById('ee-desc').value = r.desc;
-    document.getElementById('ee-amount').value = r.amount;
-    document.getElementById('ee-category').value = r.category;
-    document.getElementById('ee-notes').value = r.notes || '';
-    openModal('modal-expense');
-  }
-
-  function saveExpenseEdit() {
-    const id = parseInt(document.getElementById('ee-id').value);
-    const r = data.expenses.find(r => r.id === id);
-    if (!r) return;
-    r.date = document.getElementById('ee-date').value;
-    r.desc = document.getElementById('ee-desc').value || 'Expense';
-    r.amount = parseFloat(document.getElementById('ee-amount').value) || r.amount;
-    r.category = document.getElementById('ee-category').value;
-    r.notes = document.getElementById('ee-notes').value;
-    closeModal('modal-expense');
-    save(); renderExpenses();
-  }
-
-  function viewReceipt(id) {
-    const exp = data.expenses.find(e => e.id === id);
-    if (!exp || !exp.photo) return;
-    const w = window.open();
-    w.document.write(`<img src="${exp.photo}" style="max-width:100%;height:auto">`);
-  }
-
-  function renderExpenses() {
-    const tbody = document.getElementById('expenses-tbody');
-    if (!data.expenses.length) {
-      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🛍️</div><p>No expenses logged yet</p></div></td></tr>';
-      return;
-    }
-    tbody.innerHTML = [...data.expenses].reverse().map(r => `
-      <tr>
-        <td style="text-align:center">
-          ${r.photo
-            ? `<img src="${r.photo}" onclick="viewReceipt(${r.id})" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1.5px solid var(--rose-light);cursor:pointer" title="Tap to view receipt">`
-            : `<span style="color:var(--rose-light);font-size:1.2rem">—</span>`}
-        </td>
-        <td>${fmtDate(r.date)}</td>
-        <td><strong>${r.desc}</strong></td>
-        <td>${r.category}</td>
-        <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td>
-        <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td><button class="btn btn-edit btn-sm" onclick="editExpense(${r.id})">✏️</button></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense(${r.id})">✕</button></td>
-      </tr>`).join('');
-  }
-
-  // ── INVOICES ──
-  function nextInvoiceNum() {
-    const nums = data.invoices.map(i => parseInt((i.num||'').replace(/\D/g,''))).filter(Boolean);
-    const max = nums.length ? Math.max(...nums) : 0;
-    return 'INV-' + String(max + 1).padStart(3, '0');
-  }
-
-  document.getElementById('i-num').value = nextInvoiceNum();
-
-  function addInvoice() {
-    const amount = parseFloat(document.getElementById('i-amount').value);
-    if (!amount || amount <= 0) { alert('Please enter an amount.'); return; }
-    const miles = parseFloat(document.getElementById('i-miles').value) || 0;
-    data.invoices.push({
-      id: Date.now(),
-      date: document.getElementById('i-date').value || today(),
-      num: document.getElementById('i-num').value || nextInvoiceNum(),
-      client: document.getElementById('i-client').value || '—',
-      service: document.getElementById('i-service').value || '—',
-      amount, miles,
-      status: document.getElementById('i-status').value,
-      notes: document.getElementById('i-notes').value
-    });
-    if (miles > 0) {
-      const client = document.getElementById('i-client').value || 'Client visit';
-      data.mileage.push({ id: Date.now() + 1, date: document.getElementById('i-date').value || today(), client: client + ' (from invoice)', type: 'Client visit', miles, notes: 'Auto-logged from invoice' });
-    }
-    document.getElementById('i-amount').value = '';
-    document.getElementById('i-client').value = '';
-    document.getElementById('i-service').value = '';
-    document.getElementById('i-notes').value = '';
-    document.getElementById('i-miles').value = '';
-    save(); renderInvoices(); renderMileage();
-    document.getElementById('i-num').value = nextInvoiceNum();
-  }
-
-  function deleteInvoice(id) {
-    if (!confirm('Delete this invoice?')) return;
-    data.invoices = data.invoices.filter(r => r.id !== id);
-    save(); renderInvoices();
-  }
-
-  function editInvoice(id) {
-    const r = data.invoices.find(r => r.id === id);
-    if (!r) return;
-    document.getElementById('eiv-id').value = id;
-    document.getElementById('eiv-date').value = r.date;
-    document.getElementById('eiv-num').value = r.num;
-    document.getElementById('eiv-client').value = r.client;
-    document.getElementById('eiv-service').value = r.service;
-    document.getElementById('eiv-amount').value = r.amount;
-    document.getElementById('eiv-miles').value = r.miles || '';
-    document.getElementById('eiv-status').value = r.status;
-    document.getElementById('eiv-notes').value = r.notes || '';
-    openModal('modal-invoice');
-  }
-
-  function saveInvoiceEdit() {
-    const id = parseInt(document.getElementById('eiv-id').value);
-    const r = data.invoices.find(r => r.id === id);
-    if (!r) return;
-    r.date = document.getElementById('eiv-date').value;
-    r.num = document.getElementById('eiv-num').value;
-    r.client = document.getElementById('eiv-client').value || '—';
-    r.service = document.getElementById('eiv-service').value || '—';
-    r.amount = parseFloat(document.getElementById('eiv-amount').value) || r.amount;
-    r.miles = parseFloat(document.getElementById('eiv-miles').value) || 0;
-    r.status = document.getElementById('eiv-status').value;
-    r.notes = document.getElementById('eiv-notes').value;
-    closeModal('modal-invoice');
-    save(); renderInvoices();
-  }
-
-  function toggleStatus(id) {
-    const inv = data.invoices.find(i => i.id === id);
-    if (!inv) return;
-    const cycle = ['Pending','Paid','Unpaid'];
-    inv.status = cycle[(cycle.indexOf(inv.status) + 1) % cycle.length];
-    save(); renderInvoices();
-  }
-
-  function renderInvoices() {
-    const tbody = document.getElementById('invoices-tbody');
-    if (!data.invoices.length) {
-      tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="empty-icon">📋</div><p>No invoices yet</p></div></td></tr>';
-      return;
-    }
-    const badgeClass = s => s === 'Paid' ? 'badge-paid' : s === 'Pending' ? 'badge-pending' : 'badge-unpaid';
-    tbody.innerHTML = [...data.invoices].reverse().map(r => `
-      <tr>
-        <td>${fmtDate(r.date)}</td>
-        <td><strong>${r.num}</strong></td>
-        <td>${r.client}</td>
-        <td>${r.service}</td>
-        <td>${r.miles ? r.miles + ' mi' : '—'}</td>
-        <td style="color:var(--rose-deep);font-weight:700">${fmt$(r.amount)}</td>
-        <td><span class="badge ${badgeClass(r.status)}" style="cursor:pointer" onclick="toggleStatus(${r.id})" title="Click to cycle status">${r.status}</span></td>
-        <td style="color:var(--ink-soft)">${r.notes || '—'}</td>
-        <td><button class="btn btn-edit btn-sm" onclick="editInvoice(${r.id})">✏️</button></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteInvoice(${r.id})">✕</button></td>
-      </tr>`).join('');
-  }
-
-  // ── SUMMARY ──
-  function updateSummary() {
-    const totalMiles = data.mileage.reduce((s, r) => s + r.miles, 0);
-    const totalExpenses = data.expenses.reduce((s, r) => s + r.amount, 0);
-    const totalIncome = data.invoices.filter(i => i.status === 'Paid').reduce((s, r) => s + r.amount, 0);
-    const pending = data.invoices.filter(i => i.status === 'Pending').length;
-    const mileageDeduction = totalMiles * IRS_RATE;
-    document.getElementById('totalMiles').textContent = totalMiles.toFixed(1);
-    document.getElementById('totalExpenses').textContent = fmt$(totalExpenses);
-    document.getElementById('totalIncome').textContent = fmt$(totalIncome);
-    document.getElementById('mileageDeduction').textContent = fmt$(mileageDeduction);
-    document.getElementById('totalWriteoffs').textContent = fmt$(totalExpenses + mileageDeduction);
-    document.getElementById('pendingInvoices').textContent = pending;
-    document.getElementById('yearBadge').textContent = new Date().getFullYear();
-  }
-
-  renderMileage(); renderExpenses(); renderInvoices(); updateSummary();
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+loadState();
 </script>
 </body>
 </html>
