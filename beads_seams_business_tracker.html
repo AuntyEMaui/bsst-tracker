@@ -668,31 +668,25 @@ let state = {
 // ══════════════════════════════════════
 // STORAGE — bulletproof save
 // ══════════════════════════════════════
-async function persist() {
-  const json = JSON.stringify(state);
-  let saved = false;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    try {
-      const result = await window.storage.set(STORAGE_KEY, json);
-      if (result) { saved = true; break; }
-    } catch(e) {
-      await new Promise(r => setTimeout(r, 100));
-    }
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {
+    console.warn('localStorage save failed:', e);
   }
-  if (!saved) console.warn('Storage save failed after 3 attempts');
   render();
 }
 
-async function loadState() {
+function loadState() {
   try {
-    const saved = await window.storage.get(STORAGE_KEY);
-    if (saved && saved.value) {
-      const parsed = JSON.parse(saved.value);
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
       state.mileage  = parsed.mileage  || [];
       state.expenses = parsed.expenses || [];
       state.invoices = parsed.invoices || [];
     }
-  } catch(e) { /* fresh start */ }
+  } catch(e) {}
   render();
   checkNudge();
 }
